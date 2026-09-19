@@ -1,0 +1,60 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "notifications": "Notifications",
+    "categories": "Categories & Tags",
+    "users": "User Management",
+    "translations": "Translations",
+    "reports": "Statistics & Reports",
+    "settings": "System Settings",
+    "logout": "Log out"
+  },
+  "login": {
+    "title": "Admin sign in",
+    "subtitle": "Office for International Study Programs — HCMUT",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "google": "Sign in with Google"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalNotifications": "Total notifications",
+    "published": "Published",
+    "draft": "Drafts",
+    "readRate": "Average read rate"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "create": "New notification",
+    "status": {
+      "draft": "Draft",
+      "scheduled": "Scheduled",
+      "published": "Published",
+      "revoked": "Revoked"
+    },
+    "priority": {
+      "normal": "Normal",
+      "urgent": "Urgent"
+    },
+    "form": {
+      "titleVi": "Title (Vietnamese)",
+      "titleEn": "Title (English)",
+      "bodyVi": "Body (Vietnamese)",
+      "bodyEn": "Body (English)",
+      "category": "Category",
+      "priority": "Priority",
+      "status": "Status",
+      "attachments": "Attachments",
+      "save": "Save notification",
+      "translateDraft": "Generate draft translation (Google Translate)"
+    }
+  },
+  "categories": {
+    "title": "Notification categories",
+    "add": "Add category"
+  },
+  "users": {
+    "title": "Users"
+  }
+}

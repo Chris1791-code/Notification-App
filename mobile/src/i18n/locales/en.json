@@ -1,0 +1,38 @@
+{
+  "tabs": {
+    "home": "Home",
+    "categories": "Categories",
+    "saved": "Saved",
+    "mine": "Mine",
+    "account": "Account"
+  },
+  "home": {
+    "title": "Latest notifications",
+    "urgent": "Urgent",
+    "empty": "No notifications yet."
+  },
+  "categories": {
+    "title": "Notification categories"
+  },
+  "saved": {
+    "title": "Saved",
+    "empty": "You haven't saved any notifications yet."
+  },
+  "mine": {
+    "title": "My notifications",
+    "empty": "Set your department/cohort in Account to get personalized notifications."
+  },
+  "account": {
+    "title": "Account",
+    "language": "Display language",
+    "notificationSettings": "Notification settings",
+    "login": "Sign in",
+    "logout": "Sign out"
+  },
+  "detail": {
+    "attachments": "Attachments",
+    "save": "Save",
+    "saved": "Saved",
+    "share": "Share"
+  }
+}

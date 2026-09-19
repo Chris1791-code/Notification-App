@@ -1,0 +1,13 @@
+{
+  "name": "notification-app",
+  "private": true,
+  "workspaces": [
+    "web",
+    "mobile"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace web",
+    "build:web": "npm run build --workspace web",
+    "dev:mobile": "npm run start --workspace mobile"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "tabs": {
+    "home": "Trang chủ",
+    "categories": "Danh mục",
+    "saved": "Đã lưu",
+    "mine": "Của tôi",
+    "account": "Tài khoản"
+  },
+  "home": {
+    "title": "Thông báo mới",
+    "urgent": "Khẩn cấp",
+    "empty": "Chưa có thông báo nào."
+  },
+  "categories": {
+    "title": "Danh mục thông báo"
+  },
+  "saved": {
+    "title": "Đã lưu",
+    "empty": "Bạn chưa lưu thông báo nào."
+  },
+  "mine": {
+    "title": "Thông báo của tôi",
+    "empty": "Cập nhật khoa/lớp trong Tài khoản để nhận thông báo phù hợp."
+  },
+  "account": {
+    "title": "Tài khoản",
+    "language": "Ngôn ngữ hiển thị",
+    "notificationSettings": "Cài đặt nhận thông báo",
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất"
+  },
+  "detail": {
+    "attachments": "Tài liệu đính kèm",
+    "save": "Lưu",
+    "saved": "Đã lưu",
+    "share": "Chia sẻ"
+  }
+}
