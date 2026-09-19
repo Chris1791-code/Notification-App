@@ -1,0 +1,111 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "notifications": "Notifications",
+    "categories": "Categories & Tags",
+    "users": "User Management",
+    "translations": "Translations",
+    "reports": "Statistics & Reports",
+    "settings": "System Settings",
+    "logout": "Log out"
+  },
+  "login": {
+    "title": "Admin sign in",
+    "subtitle": "Office for International Study Programs — HCMUT",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "google": "Sign in with Google"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalNotifications": "Total notifications",
+    "published": "Published",
+    "draft": "Drafts",
+    "readRate": "Average read rate"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "create": "New notification",
+    "status": {
+      "draft": "Draft",
+      "scheduled": "Scheduled",
+      "published": "Published",
+      "revoked": "Revoked"
+    },
+    "priority": {
+      "normal": "Normal",
+      "urgent": "Urgent"
+    },
+    "form": {
+      "titleVi": "Title (Vietnamese)",
+      "titleEn": "Title (English)",
+      "bodyVi": "Body (Vietnamese)",
+      "bodyEn": "Body (English)",
+      "category": "Category",
+      "priority": "Priority",
+      "status": "Status",
+      "attachments": "Attachments",
+      "save": "Save notification",
+      "translateDraft": "Generate draft translation (Google Translate)"
+    }
+  },
+  "categories": {
+    "title": "Notification categories",
+    "add": "Add category"
+  },
+  "users": {
+    "title": "Users",
+    "search": "Search by name or email",
+    "filterRole": "Role",
+    "filterDepartment": "Department",
+    "allRoles": "All roles",
+    "allDepartments": "All departments",
+    "role": {
+      "admin": "Admin",
+      "editor": "Editor",
+      "student": "Student",
+      "staff": "Staff"
+    },
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "department": "Department",
+      "cohort": "Cohort"
+    },
+    "readonlyHint": "Only Admins can change a user's role.",
+    "empty": "No matching users found.",
+    "loading": "Loading…",
+    "updateError": "Could not update the role. Please try again."
+  },
+  "translationsPage": {
+    "title": "Translations",
+    "pendingCount": "{count} notifications awaiting translation review",
+    "titleViLabel": "Title (VI)",
+    "titleEnLabel": "Title (EN)",
+    "bodyEnLabel": "Body (EN)",
+    "generateDraft": "Generate draft translation",
+    "save": "Save",
+    "approve": "Approve translation",
+    "status": {
+      "missing": "Not translated",
+      "draft": "Draft translation — not approved",
+      "reviewed": "Approved"
+    },
+    "empty": "No notifications awaiting translation review.",
+    "error": "Something went wrong, please try again.",
+    "hint": "Machine translation is only a draft — always review and edit before approving."
+  },
+  "reportsPage": {
+    "title": "Statistics & Reports",
+    "totalReads": "Total reads",
+    "publishedCount": "Published notifications",
+    "avgReadRate": "Average read rate",
+    "topCategory": "Most-read category",
+    "byCategoryTitle": "Reads by category",
+    "byCategoryEmpty": "No reads recorded yet.",
+    "trendTitle": "Reads over the last 14 days",
+    "noData": "—"
+  }
+}

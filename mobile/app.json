@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "OISP Notification",
+    "slug": "oisp-notification-app",
+    "scheme": "oispnotify",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "vn.edu.hcmut.oisp.notification"
+    },
+    "android": {
+      "package": "vn.edu.hcmut.oisp.notification",
+      "adaptiveIcon": {
+        "backgroundColor": "#00529B"
+      }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "color": "#00529B"
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+web/.next/
+web/out/
+web/.env.local
+web/.env*.local
+
+# Expo / React Native
+mobile/.expo/
+mobile/dist/
+mobile/web-build/
+mobile/*.jks
+mobile/*.p8
+mobile/*.p12
+mobile/*.key
+mobile/*.mobileprovision
+mobile/.env
+
+# Firebase
+.firebase/
+firebase-debug.log
+firebase/functions/node_modules/
+
+# Env
+.env
+.env.local
+
+# Misc
+.DS_Store
+*.log
+npm-debug.log*
+coverage/

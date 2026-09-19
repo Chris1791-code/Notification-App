@@ -1,0 +1,111 @@
+{
+  "nav": {
+    "dashboard": "Tổng quan",
+    "notifications": "Quản lý thông báo",
+    "categories": "Danh mục & Thẻ",
+    "users": "Quản lý người dùng",
+    "translations": "Đa ngôn ngữ / Bản dịch",
+    "reports": "Thống kê & Báo cáo",
+    "settings": "Cài đặt hệ thống",
+    "logout": "Đăng xuất"
+  },
+  "login": {
+    "title": "Đăng nhập quản trị",
+    "subtitle": "VP. Đào tạo Quốc tế — HCMUT",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "submit": "Đăng nhập",
+    "google": "Đăng nhập với Google"
+  },
+  "dashboard": {
+    "title": "Tổng quan",
+    "totalNotifications": "Tổng số thông báo",
+    "published": "Đã đăng",
+    "draft": "Bản nháp",
+    "readRate": "Tỷ lệ đọc trung bình"
+  },
+  "notifications": {
+    "title": "Danh sách thông báo",
+    "create": "Tạo thông báo mới",
+    "status": {
+      "draft": "Bản nháp",
+      "scheduled": "Đã lên lịch",
+      "published": "Đã đăng",
+      "revoked": "Đã thu hồi"
+    },
+    "priority": {
+      "normal": "Bình thường",
+      "urgent": "Khẩn cấp"
+    },
+    "form": {
+      "titleVi": "Tiêu đề (Tiếng Việt)",
+      "titleEn": "Tiêu đề (English)",
+      "bodyVi": "Nội dung (Tiếng Việt)",
+      "bodyEn": "Nội dung (English)",
+      "category": "Danh mục",
+      "priority": "Mức độ ưu tiên",
+      "status": "Trạng thái",
+      "attachments": "Tài liệu đính kèm",
+      "save": "Lưu thông báo",
+      "translateDraft": "Tạo bản dịch nháp (Google Translate)"
+    }
+  },
+  "categories": {
+    "title": "Danh mục thông báo",
+    "add": "Thêm danh mục"
+  },
+  "users": {
+    "title": "Người dùng",
+    "search": "Tìm theo tên hoặc email",
+    "filterRole": "Vai trò",
+    "filterDepartment": "Khoa/Đơn vị",
+    "allRoles": "Tất cả vai trò",
+    "allDepartments": "Tất cả khoa/đơn vị",
+    "role": {
+      "admin": "Quản trị viên",
+      "editor": "Biên tập viên",
+      "student": "Sinh viên",
+      "staff": "Nhân viên"
+    },
+    "table": {
+      "name": "Họ tên",
+      "email": "Email",
+      "role": "Vai trò",
+      "department": "Khoa/Đơn vị",
+      "cohort": "Khóa"
+    },
+    "readonlyHint": "Chỉ Quản trị viên mới có thể đổi vai trò người dùng.",
+    "empty": "Không tìm thấy người dùng phù hợp.",
+    "loading": "Đang tải…",
+    "updateError": "Không thể cập nhật vai trò. Vui lòng thử lại."
+  },
+  "translationsPage": {
+    "title": "Đa ngôn ngữ / Bản dịch",
+    "pendingCount": "{count} thông báo chưa duyệt bản dịch",
+    "titleViLabel": "Tiêu đề (VI)",
+    "titleEnLabel": "Tiêu đề (EN)",
+    "bodyEnLabel": "Nội dung (EN)",
+    "generateDraft": "Tạo bản dịch nháp",
+    "save": "Lưu",
+    "approve": "Duyệt bản dịch",
+    "status": {
+      "missing": "Chưa dịch",
+      "draft": "Bản dịch nháp — chưa duyệt",
+      "reviewed": "Đã duyệt"
+    },
+    "empty": "Không có thông báo nào cần duyệt bản dịch.",
+    "error": "Có lỗi xảy ra, vui lòng thử lại.",
+    "hint": "Bản dịch máy chỉ là bản nháp — luôn đọc lại và sửa nếu cần trước khi bấm Duyệt."
+  },
+  "reportsPage": {
+    "title": "Thống kê & Báo cáo",
+    "totalReads": "Tổng lượt đọc",
+    "publishedCount": "Thông báo đã đăng",
+    "avgReadRate": "Tỷ lệ đọc trung bình",
+    "topCategory": "Danh mục nhiều lượt đọc nhất",
+    "byCategoryTitle": "Lượt đọc theo danh mục",
+    "byCategoryEmpty": "Chưa có lượt đọc nào được ghi nhận.",
+    "trendTitle": "Lượt đọc 14 ngày gần nhất",
+    "noData": "—"
+  }
+}

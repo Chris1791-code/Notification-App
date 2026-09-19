@@ -1,0 +1,77 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function role() {
+      return isSignedIn() ? userDoc().data.role : null;
+    }
+
+    function isAdmin() {
+      return role() == 'admin';
+    }
+
+    function isEditor() {
+      return role() == 'admin' || role() == 'editor';
+    }
+
+    // Users: a user can read/update their own profile; only admins manage roles for others.
+    match /users/{uid} {
+      allow read: if isSignedIn() && (request.auth.uid == uid || isEditor());
+      allow create: if isSignedIn() && request.auth.uid == uid;
+      allow update: if isSignedIn() &&
+        (request.auth.uid == uid && request.resource.data.role == resource.data.role || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // Categories: readable by everyone signed in, writable only by editors/admins.
+    match /categories/{categoryId} {
+      allow read: if isSignedIn();
+      allow write: if isEditor();
+    }
+
+    // Notifications: published ones are readable by any signed-in user;
+    // drafts/scheduled are only visible to editors/admins.
+    match /notifications/{notificationId} {
+      allow read: if isSignedIn() &&
+        (resource.data.status == 'published' || isEditor());
+      allow create, update, delete: if isEditor();
+    }
+
+    // Per-user read receipts, used for read-rate statistics. Re-opening a
+    // notification re-sets the same doc id (uid_notificationId), so updates
+    // by the original reader must stay allowed alongside creates.
+    match /notificationReads/{docId} {
+      allow read: if isEditor();
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow update: if isSignedIn() &&
+        resource.data.uid == request.auth.uid &&
+        request.resource.data.uid == resource.data.uid &&
+        request.resource.data.notificationId == resource.data.notificationId;
+      allow delete: if false;
+    }
+
+    // Per-user bookmarks. request.resource only exists on writes, so read/delete
+    // must check the existing resource's owner instead.
+    match /savedNotifications/{docId} {
+      allow read, delete: if isSignedIn() && resource.data.uid == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow update: if false;
+    }
+
+    // Audit log: append-only, editors can read, nobody can edit/delete.
+    match /auditLogs/{logId} {
+      allow read: if isEditor();
+      allow create: if isEditor();
+      allow update, delete: if false;
+    }
+  }
+}
