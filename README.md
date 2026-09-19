@@ -76,7 +76,8 @@ Danh mục 15 nhóm hiện tại (`academic`, `exams`, `student-affairs`, `finan
 
 ## Việc còn cần làm trước khi triển khai thật (production)
 
-- [ ] Quản lý người dùng đầy đủ (danh sách, phân quyền, nhóm nhận theo khoa/khóa) — hiện là trang placeholder.
+- [x] Quản lý người dùng: danh sách, tìm kiếm, lọc theo vai trò/khoa, đổi vai trò (admin) — `web/src/app/[locale]/admin/users`.
+  - [ ] Nhóm nhận thông báo theo khoa/khóa (target segmentation khi tạo thông báo) — chưa làm.
 - [ ] Đẩy thông báo qua Firebase Cloud Messaging (FCM) cho app di động.
 - [ ] Cấu hình lại `auth` trong `mobile/src/firebase.ts` dùng `initializeAuth` + AsyncStorage persistence (xem TODO trong file) để giữ phiên đăng nhập qua các lần mở app.
 - [ ] Thống kê tỷ lệ đọc/click theo danh mục, xuất báo cáo.
