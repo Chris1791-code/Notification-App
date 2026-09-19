@@ -23,6 +23,8 @@ export function NotificationForm() {
   const [priority, setPriority] = useState<NotificationPriority>('normal');
   const [status, setStatus] = useState<NotificationStatus>('draft');
   const [saving, setSaving] = useState(false);
+  const [translating, setTranslating] = useState(false);
+  const [translateError, setTranslateError] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -50,8 +52,29 @@ export function NotificationForm() {
     }
   }
 
-  // TODO: gọi Cloud Function bọc Google Cloud Translation API để tạo bản dịch
-  // nháp titleEn/bodyEn từ titleVi/bodyVi, sau đó biên tập viên duyệt trước khi lưu.
+  async function handleTranslateDraft() {
+    setTranslateError(null);
+    if (!titleVi.trim() || !bodyVi.trim()) {
+      setTranslateError('Nhập tiêu đề và nội dung tiếng Việt trước khi tạo bản dịch nháp.');
+      return;
+    }
+    setTranslating(true);
+    try {
+      const res = await fetch('/api/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titleVi, bodyVi })
+      });
+      const json = (await res.json()) as { titleEn?: string; bodyEn?: string; error?: string };
+      if (!res.ok) throw new Error(json.error ?? 'Không tạo được bản dịch nháp.');
+      setTitleEn(json.titleEn ?? '');
+      setBodyEn(json.bodyEn ?? '');
+    } catch (err) {
+      setTranslateError((err as Error).message);
+    } finally {
+      setTranslating(false);
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-4 rounded-lg border border-gray-200 bg-white p-6">
@@ -65,20 +88,33 @@ export function NotificationForm() {
         />
       </div>
       <div>
-        <label className="mb-1 block text-sm font-medium">{t('titleEn')}</label>
-        <input
-          value={titleEn}
-          onChange={(e) => setTitleEn(e.target.value)}
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
-        />
-      </div>
-      <div>
         <label className="mb-1 block text-sm font-medium">{t('bodyVi')}</label>
         <textarea
           required
           rows={4}
           value={bodyVi}
           onChange={(e) => setBodyVi(e.target.value)}
+          className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
+        />
+      </div>
+
+      <div className="flex items-center gap-3 border-t border-dashed border-gray-200 pt-4">
+        <button
+          type="button"
+          onClick={handleTranslateDraft}
+          disabled={translating}
+          className="rounded border border-brand px-3 py-1.5 text-sm font-medium text-brand hover:bg-brand-light disabled:opacity-50"
+        >
+          {translating ? '…' : t('translateDraft')}
+        </button>
+        {translateError && <p className="text-sm text-red-600">{translateError}</p>}
+      </div>
+
+      <div>
+        <label className="mb-1 block text-sm font-medium">{t('titleEn')}</label>
+        <input
+          value={titleEn}
+          onChange={(e) => setTitleEn(e.target.value)}
           className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
         />
       </div>

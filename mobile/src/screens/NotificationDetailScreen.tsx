@@ -1,7 +1,10 @@
+import { useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { auth, db } from '@/firebase';
 import type { RootStackParamList } from '@/navigation/RootNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NotificationDetail'>;
@@ -12,6 +15,19 @@ export function NotificationDetailScreen({ route }: Props) {
 
   const title = i18n.language === 'en' && notification.titleEn ? notification.titleEn : notification.titleVi;
   const body = i18n.language === 'en' && notification.bodyEn ? notification.bodyEn : notification.bodyVi;
+
+  useEffect(() => {
+    const uid = auth.currentUser?.uid;
+    if (!uid) return;
+    // Ghi nhận lượt đọc — set với id cố định uid_notificationId nên mở lại nhiều lần
+    // chỉ cập nhật readAt, không tạo bản ghi trùng.
+    void setDoc(doc(db, 'notificationReads', `${uid}_${notification.id}`), {
+      uid,
+      notificationId: notification.id,
+      categoryId: notification.categoryId,
+      readAt: serverTimestamp()
+    });
+  }, [notification.id, notification.categoryId]);
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>

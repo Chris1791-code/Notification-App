@@ -16,6 +16,14 @@
       "adaptiveIcon": {
         "backgroundColor": "#00529B"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "color": "#00529B"
+        }
+      ]
+    ]
   }
 }

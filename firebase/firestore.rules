@@ -46,17 +46,25 @@ service cloud.firestore {
       allow create, update, delete: if isEditor();
     }
 
-    // Per-user read receipts, used for read-rate statistics.
+    // Per-user read receipts, used for read-rate statistics. Re-opening a
+    // notification re-sets the same doc id (uid_notificationId), so updates
+    // by the original reader must stay allowed alongside creates.
     match /notificationReads/{docId} {
       allow read: if isEditor();
       allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
-      allow update, delete: if false;
+      allow update: if isSignedIn() &&
+        resource.data.uid == request.auth.uid &&
+        request.resource.data.uid == resource.data.uid &&
+        request.resource.data.notificationId == resource.data.notificationId;
+      allow delete: if false;
     }
 
-    // Per-user bookmarks.
+    // Per-user bookmarks. request.resource only exists on writes, so read/delete
+    // must check the existing resource's owner instead.
     match /savedNotifications/{docId} {
-      allow read, create, delete: if isSignedIn() && request.resource.data.uid == request.auth.uid;
       allow read, delete: if isSignedIn() && resource.data.uid == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow update: if false;
     }
 
     // Audit log: append-only, editors can read, nobody can edit/delete.

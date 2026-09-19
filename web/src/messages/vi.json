@@ -78,5 +78,34 @@
     "empty": "Không tìm thấy người dùng phù hợp.",
     "loading": "Đang tải…",
     "updateError": "Không thể cập nhật vai trò. Vui lòng thử lại."
+  },
+  "translationsPage": {
+    "title": "Đa ngôn ngữ / Bản dịch",
+    "pendingCount": "{count} thông báo chưa duyệt bản dịch",
+    "titleViLabel": "Tiêu đề (VI)",
+    "titleEnLabel": "Tiêu đề (EN)",
+    "bodyEnLabel": "Nội dung (EN)",
+    "generateDraft": "Tạo bản dịch nháp",
+    "save": "Lưu",
+    "approve": "Duyệt bản dịch",
+    "status": {
+      "missing": "Chưa dịch",
+      "draft": "Bản dịch nháp — chưa duyệt",
+      "reviewed": "Đã duyệt"
+    },
+    "empty": "Không có thông báo nào cần duyệt bản dịch.",
+    "error": "Có lỗi xảy ra, vui lòng thử lại.",
+    "hint": "Bản dịch máy chỉ là bản nháp — luôn đọc lại và sửa nếu cần trước khi bấm Duyệt."
+  },
+  "reportsPage": {
+    "title": "Thống kê & Báo cáo",
+    "totalReads": "Tổng lượt đọc",
+    "publishedCount": "Thông báo đã đăng",
+    "avgReadRate": "Tỷ lệ đọc trung bình",
+    "topCategory": "Danh mục nhiều lượt đọc nhất",
+    "byCategoryTitle": "Lượt đọc theo danh mục",
+    "byCategoryEmpty": "Chưa có lượt đọc nào được ghi nhận.",
+    "trendTitle": "Lượt đọc 14 ngày gần nhất",
+    "noData": "—"
   }
 }

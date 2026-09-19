@@ -8,6 +8,7 @@ export interface AppUser {
   department?: string;
   cohort?: string;
   locale?: 'vi' | 'en';
+  expoPushTokens?: string[];
 }
 
 export interface Category {
