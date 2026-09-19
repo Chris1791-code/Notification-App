@@ -55,6 +55,28 @@
     "add": "Add category"
   },
   "users": {
-    "title": "Users"
+    "title": "Users",
+    "search": "Search by name or email",
+    "filterRole": "Role",
+    "filterDepartment": "Department",
+    "allRoles": "All roles",
+    "allDepartments": "All departments",
+    "role": {
+      "admin": "Admin",
+      "editor": "Editor",
+      "student": "Student",
+      "staff": "Staff"
+    },
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "department": "Department",
+      "cohort": "Cohort"
+    },
+    "readonlyHint": "Only Admins can change a user's role.",
+    "empty": "No matching users found.",
+    "loading": "Loading…",
+    "updateError": "Could not update the role. Please try again."
   }
 }

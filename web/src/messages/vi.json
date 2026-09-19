@@ -55,6 +55,28 @@
     "add": "Thêm danh mục"
   },
   "users": {
-    "title": "Người dùng"
+    "title": "Người dùng",
+    "search": "Tìm theo tên hoặc email",
+    "filterRole": "Vai trò",
+    "filterDepartment": "Khoa/Đơn vị",
+    "allRoles": "Tất cả vai trò",
+    "allDepartments": "Tất cả khoa/đơn vị",
+    "role": {
+      "admin": "Quản trị viên",
+      "editor": "Biên tập viên",
+      "student": "Sinh viên",
+      "staff": "Nhân viên"
+    },
+    "table": {
+      "name": "Họ tên",
+      "email": "Email",
+      "role": "Vai trò",
+      "department": "Khoa/Đơn vị",
+      "cohort": "Khóa"
+    },
+    "readonlyHint": "Chỉ Quản trị viên mới có thể đổi vai trò người dùng.",
+    "empty": "Không tìm thấy người dùng phù hợp.",
+    "loading": "Đang tải…",
+    "updateError": "Không thể cập nhật vai trò. Vui lòng thử lại."
   }
 }
