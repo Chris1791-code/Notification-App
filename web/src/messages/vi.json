@@ -47,12 +47,32 @@
       "status": "Trạng thái",
       "attachments": "Tài liệu đính kèm",
       "save": "Lưu thông báo",
-      "translateDraft": "Tạo bản dịch nháp (Google Translate)"
+      "translateDraft": "Tạo bản dịch nháp (Google Translate)",
+      "targeting": {
+        "title": "Nhóm nhận thông báo",
+        "everyoneHint": "Không chọn gì = gửi cho tất cả người dùng.",
+        "filteredHint": "Chỉ gửi cho người dùng khớp với ít nhất một lựa chọn trong mỗi nhóm đã chọn bên dưới.",
+        "roles": "Vai trò",
+        "departments": "Khoa/Đơn vị",
+        "programs": "Chương trình",
+        "majors": "Ngành học",
+        "cohorts": "Khóa"
+      }
     }
   },
   "categories": {
     "title": "Danh mục thông báo",
-    "add": "Thêm danh mục"
+    "add": "Thêm danh mục",
+    "seedDefaults": "Nạp danh mục mặc định",
+    "order": "Thứ tự",
+    "icon": "Icon",
+    "nameVi": "Tên (VI)",
+    "nameEn": "Name (EN)",
+    "delete": "Xóa",
+    "loading": "Đang tải…",
+    "empty": "Chưa có danh mục nào.",
+    "saveError": "Không thể lưu thay đổi. Vui lòng thử lại.",
+    "readonlyHint": "Chỉ Quản trị viên/Biên tập viên mới có thể chỉnh sửa danh mục."
   },
   "users": {
     "title": "Người dùng",
@@ -72,12 +92,21 @@
       "email": "Email",
       "role": "Vai trò",
       "department": "Khoa/Đơn vị",
+      "program": "Chương trình",
+      "major": "Ngành học",
       "cohort": "Khóa"
     },
     "readonlyHint": "Chỉ Quản trị viên mới có thể đổi vai trò người dùng.",
     "empty": "Không tìm thấy người dùng phù hợp.",
     "loading": "Đang tải…",
-    "updateError": "Không thể cập nhật vai trò. Vui lòng thử lại."
+    "updateError": "Không thể cập nhật vai trò. Vui lòng thử lại.",
+    "addUser": {
+      "title": "Thêm người dùng",
+      "password": "Mật khẩu tạm thời",
+      "passwordHint": "Ít nhất 6 ký tự",
+      "cancel": "Hủy",
+      "submit": "Tạo tài khoản"
+    }
   },
   "translationsPage": {
     "title": "Đa ngôn ngữ / Bản dịch",
@@ -106,6 +135,17 @@
     "byCategoryTitle": "Lượt đọc theo danh mục",
     "byCategoryEmpty": "Chưa có lượt đọc nào được ghi nhận.",
     "trendTitle": "Lượt đọc 14 ngày gần nhất",
-    "noData": "—"
+    "noData": "—",
+    "detail": {
+      "title": "Chi tiết theo thông báo",
+      "noPublished": "Chưa có thông báo nào được đăng.",
+      "readCount": "Đã đọc ({count}/{total})",
+      "unreadCount": "Chưa đọc ({count})",
+      "noReaders": "Chưa có ai đọc.",
+      "allRead": "Mọi người trong nhóm nhận đã đọc.",
+      "name": "Họ tên",
+      "readAt": "Thời điểm đọc",
+      "department": "Khoa/Đơn vị"
+    }
   }
 }

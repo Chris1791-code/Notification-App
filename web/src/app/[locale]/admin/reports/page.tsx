@@ -9,6 +9,7 @@ import { useNotificationReads } from '@/hooks/useNotificationReads';
 import { StatCard } from '@/components/StatCard';
 import { CategoryReadBarChart } from '@/components/charts/CategoryReadBarChart';
 import { DailyReadsSparkline } from '@/components/charts/DailyReadsSparkline';
+import { NotificationReadDetail } from '@/components/NotificationReadDetail';
 
 const TREND_DAYS = 14;
 
@@ -94,6 +95,10 @@ export default function ReportsPage() {
           <h2 className="mb-4 text-sm font-semibold text-gray-700">{t('trendTitle')}</h2>
           <DailyReadsSparkline data={byDay} />
         </div>
+      </div>
+
+      <div className="mt-6">
+        <NotificationReadDetail />
       </div>
     </div>
   );

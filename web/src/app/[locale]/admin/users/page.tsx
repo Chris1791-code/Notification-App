@@ -6,9 +6,11 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { useUsers } from '@/hooks/useUsers';
-import type { UserRole } from '@/lib/types';
+import { AddUserModal } from '@/components/AddUserModal';
+import type { AppUser, UserRole } from '@/lib/types';
 
 const ROLES: UserRole[] = ['admin', 'editor', 'student', 'staff'];
+type EditableField = 'department' | 'program' | 'major' | 'cohort';
 
 export default function UsersPage() {
   const t = useTranslations('users');
@@ -21,6 +23,7 @@ export default function UsersPage() {
   const [departmentFilter, setDepartmentFilter] = useState('all');
   const [updatingUid, setUpdatingUid] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const departments = useMemo(() => {
     const set = new Set(users.map((u) => u.department).filter((d): d is string => Boolean(d)));
@@ -50,9 +53,28 @@ export default function UsersPage() {
     }
   }
 
+  async function handleFieldChange(uid: string, field: EditableField, value: string) {
+    setError(null);
+    try {
+      await updateDoc(doc(db, 'users', uid), { [field]: value });
+    } catch {
+      setError(t('updateError'));
+    }
+  }
+
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold">{t('title')}</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-xl font-semibold">{t('title')}</h1>
+        {isAdmin && (
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="rounded bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark"
+          >
+            {t('addUser.title')}
+          </button>
+        )}
+      </div>
 
       <div className="mb-4 flex flex-wrap gap-3">
         <input
@@ -89,7 +111,7 @@ export default function UsersPage() {
 
       {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
 
-      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+      <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
         <table className="w-full text-left text-sm">
           <thead className="bg-gray-50 text-gray-500">
             <tr>
@@ -97,20 +119,22 @@ export default function UsersPage() {
               <th className="px-4 py-2">{t('table.email')}</th>
               <th className="px-4 py-2">{t('table.role')}</th>
               <th className="px-4 py-2">{t('table.department')}</th>
+              <th className="px-4 py-2">{t('table.program')}</th>
+              <th className="px-4 py-2">{t('table.major')}</th>
               <th className="px-4 py-2">{t('table.cohort')}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {loading && (
               <tr>
-                <td className="px-4 py-3 text-gray-400" colSpan={5}>
+                <td className="px-4 py-3 text-gray-400" colSpan={7}>
                   {t('loading')}
                 </td>
               </tr>
             )}
             {!loading && filteredUsers.length === 0 && (
               <tr>
-                <td className="px-4 py-3 text-gray-400" colSpan={5}>
+                <td className="px-4 py-3 text-gray-400" colSpan={7}>
                   {t('empty')}
                 </td>
               </tr>
@@ -137,8 +161,18 @@ export default function UsersPage() {
                     t(`role.${u.role}`)
                   )}
                 </td>
-                <td className="px-4 py-2">{u.department ?? '—'}</td>
-                <td className="px-4 py-2">{u.cohort ?? '—'}</td>
+                {(['department', 'program', 'major', 'cohort'] as const).map((field) => (
+                  <td key={field} className="px-4 py-2">
+                    {isAdmin ? (
+                      <EditableCell
+                        value={u[field as keyof AppUser] as string | undefined}
+                        onSave={(value) => handleFieldChange(u.uid, field, value)}
+                      />
+                    ) : (
+                      (u[field as keyof AppUser] as string | undefined) ?? '—'
+                    )}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
@@ -146,6 +180,23 @@ export default function UsersPage() {
       </div>
 
       {!isAdmin && <p className="mt-3 text-xs text-gray-400">{t('readonlyHint')}</p>}
+
+      {showAddModal && <AddUserModal onClose={() => setShowAddModal(false)} onCreated={() => setShowAddModal(false)} />}
     </div>
+  );
+}
+
+function EditableCell({ value, onSave }: { value: string | undefined; onSave: (value: string) => void }) {
+  const [draft, setDraft] = useState(value ?? '');
+
+  return (
+    <input
+      value={draft}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={() => {
+        if (draft !== (value ?? '')) onSave(draft);
+      }}
+      className="w-28 rounded border border-transparent px-2 py-1 text-sm hover:border-gray-300 focus:border-gray-300 focus:outline-none"
+    />
   );
 }

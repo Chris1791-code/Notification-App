@@ -6,9 +6,19 @@ export interface AppUser {
   displayName?: string;
   role: UserRole;
   department?: string;
+  program?: string;
+  major?: string;
   cohort?: string;
   locale?: 'vi' | 'en';
   expoPushTokens?: string[];
+}
+
+export interface TargetFilter {
+  departments?: string[];
+  programs?: string[];
+  majors?: string[];
+  cohorts?: string[];
+  roles?: UserRole[];
 }
 
 export interface Category {
@@ -39,7 +49,7 @@ export interface AppNotification {
   categoryId: string;
   status: NotificationStatus;
   priority: NotificationPriority;
-  targetGroups: string[];
+  targetFilter: TargetFilter;
   attachments: Attachment[];
   publishAt: string | null;
   createdBy: string;

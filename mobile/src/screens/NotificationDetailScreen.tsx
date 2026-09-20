@@ -19,14 +19,19 @@ export function NotificationDetailScreen({ route }: Props) {
   useEffect(() => {
     const uid = auth.currentUser?.uid;
     if (!uid) return;
-    // Ghi nhận lượt đọc — set với id cố định uid_notificationId nên mở lại nhiều lần
-    // chỉ cập nhật readAt, không tạo bản ghi trùng.
-    void setDoc(doc(db, 'notificationReads', `${uid}_${notification.id}`), {
-      uid,
-      notificationId: notification.id,
-      categoryId: notification.categoryId,
-      readAt: serverTimestamp()
-    });
+    // Chỉ tính là "đã đọc" nếu người dùng mở màn hình chi tiết liên tục ít nhất
+    // 10 giây — tránh tính lượt đọc cho những lượt bấm vào rồi thoát ra ngay.
+    // Set với id cố định uid_notificationId nên mở lại nhiều lần chỉ cập nhật
+    // readAt, không tạo bản ghi trùng.
+    const timer = setTimeout(() => {
+      void setDoc(doc(db, 'notificationReads', `${uid}_${notification.id}`), {
+        uid,
+        notificationId: notification.id,
+        categoryId: notification.categoryId,
+        readAt: serverTimestamp()
+      });
+    }, 10_000);
+    return () => clearTimeout(timer);
   }, [notification.id, notification.categoryId]);
 
   return (

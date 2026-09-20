@@ -6,7 +6,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase';
 import { useCategories } from '@/hooks/useCategories';
-import type { NotificationPriority, NotificationStatus } from '@/lib/types';
+import { TargetFilterEditor } from '@/components/TargetFilterEditor';
+import type { NotificationPriority, NotificationStatus, TargetFilter } from '@/lib/types';
 
 export function NotificationForm() {
   const t = useTranslations('notifications.form');
@@ -22,6 +23,7 @@ export function NotificationForm() {
   const [categoryId, setCategoryId] = useState(categories[0]?.id ?? '');
   const [priority, setPriority] = useState<NotificationPriority>('normal');
   const [status, setStatus] = useState<NotificationStatus>('draft');
+  const [targetFilter, setTargetFilter] = useState<TargetFilter>({});
   const [saving, setSaving] = useState(false);
   const [translating, setTranslating] = useState(false);
   const [translateError, setTranslateError] = useState<string | null>(null);
@@ -38,7 +40,7 @@ export function NotificationForm() {
         categoryId,
         priority,
         status,
-        targetGroups: [],
+        targetFilter,
         attachments: [],
         publishAt: status === 'published' ? new Date().toISOString() : null,
         createdBy: auth.currentUser?.uid ?? 'unknown',
@@ -165,6 +167,10 @@ export function NotificationForm() {
           <option value="scheduled">Đã lên lịch</option>
           <option value="published">Đã đăng</option>
         </select>
+      </div>
+      <div>
+        <label className="mb-1 block text-sm font-medium">{t('targeting.title')}</label>
+        <TargetFilterEditor value={targetFilter} onChange={setTargetFilter} />
       </div>
       <button
         type="submit"

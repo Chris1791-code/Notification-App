@@ -126,11 +126,14 @@ Danh mục 15 nhóm hiện tại (`academic`, `exams`, `student-affairs`, `finan
 
 ## Việc còn cần làm trước khi triển khai thật (production)
 
-- [x] Quản lý người dùng: danh sách, tìm kiếm, lọc theo vai trò/khoa, đổi vai trò (admin) — `web/src/app/[locale]/admin/users`.
-  - [ ] Nhóm nhận thông báo theo khoa/khóa (target segmentation khi tạo thông báo) — chưa làm, hiện push gửi cho toàn bộ người dùng có token.
+- [x] Quản lý người dùng: danh sách, tìm kiếm, lọc theo vai trò/khoa, đổi vai trò (admin), **thêm người dùng mới** (Cloud Function `createUserAccount`, tránh việc `createUserWithEmailAndPassword` ở client đăng xuất mất phiên admin), sửa trực tiếp Khoa/Đơn vị, **Chương trình**, **Ngành học**, Khóa — `web/src/app/[locale]/admin/users`, `web/src/components/AddUserModal.tsx`.
+- [x] Nhóm nhận thông báo theo vai trò/khoa/chương trình/ngành/khóa (target segmentation khi tạo thông báo) — `web/src/components/TargetFilterEditor.tsx`, lọc người nhận push trong `onNotificationPublished` (`firebase/functions/src/targetFilter.ts`). Không chọn gì = gửi cho tất cả (giữ hành vi mặc định cũ).
+- [x] Quản lý danh mục thông báo (thêm/sửa/xóa, đổi tên VI/EN, icon, thứ tự) cho admin/editor, có nút nạp nhanh 15 danh mục mặc định — `web/src/app/[locale]/admin/categories`.
+- [x] Đăng xuất trên web admin — `web/src/components/Sidebar.tsx`.
 - [x] Đẩy thông báo qua Expo Push Service (chuyển tiếp qua FCM/APNs) — `firebase/functions`, `mobile/src/notifications.ts`.
 - [x] Dịch nháp tự động qua Google Cloud Translation API + duyệt thủ công — `web/src/app/api/translate`, trang Đa ngôn ngữ.
-- [x] Thống kê tỷ lệ đọc theo danh mục/thời gian — `web/src/app/[locale]/admin/reports`.
+- [x] Thống kê tỷ lệ đọc theo danh mục/thời gian, **chi tiết theo từng thông báo** (ai đã đọc/thời điểm đọc, ai trong nhóm nhận chưa đọc) — `web/src/app/[locale]/admin/reports`, `web/src/components/NotificationReadDetail.tsx`.
+- [x] Chỉ tính "đã đọc" khi người dùng mở màn hình chi tiết thông báo liên tục ≥10 giây (tránh tính lượt đọc cho lượt bấm vào rồi thoát ngay) — `mobile/src/screens/NotificationDetailScreen.tsx`.
 - [x] Màn hình đăng nhập/đăng ký cho sinh viên/giảng viên trên mobile (email/password, tự gán `role: student`) — `mobile/src/screens/LoginScreen.tsx`. Phiên đăng nhập được giữ qua AsyncStorage (Firebase Auth tự phát hiện React Native).
   - [ ] Đăng nhập Google trên mobile (`@react-native-google-signin/google-signin`) — hiện chỉ có email/password, web vẫn có nút Google riêng.
 - [ ] Đối chiếu khung 15 danh mục thông báo với danh mục chính thức của ĐHBK.
