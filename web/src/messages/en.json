@@ -47,12 +47,32 @@
       "status": "Status",
       "attachments": "Attachments",
       "save": "Save notification",
-      "translateDraft": "Generate draft translation (Google Translate)"
+      "translateDraft": "Generate draft translation (Google Translate)",
+      "targeting": {
+        "title": "Recipient group",
+        "everyoneHint": "Nothing selected = send to every user.",
+        "filteredHint": "Only sent to users matching at least one choice in every group selected below.",
+        "roles": "Role",
+        "departments": "Department",
+        "programs": "Program",
+        "majors": "Major",
+        "cohorts": "Cohort"
+      }
     }
   },
   "categories": {
     "title": "Notification categories",
-    "add": "Add category"
+    "add": "Add category",
+    "seedDefaults": "Load default categories",
+    "order": "Order",
+    "icon": "Icon",
+    "nameVi": "Name (VI)",
+    "nameEn": "Name (EN)",
+    "delete": "Delete",
+    "loading": "Loading…",
+    "empty": "No categories yet.",
+    "saveError": "Could not save the change. Please try again.",
+    "readonlyHint": "Only Admins/Editors can edit categories."
   },
   "users": {
     "title": "Users",
@@ -72,12 +92,21 @@
       "email": "Email",
       "role": "Role",
       "department": "Department",
+      "program": "Program",
+      "major": "Major",
       "cohort": "Cohort"
     },
     "readonlyHint": "Only Admins can change a user's role.",
     "empty": "No matching users found.",
     "loading": "Loading…",
-    "updateError": "Could not update the role. Please try again."
+    "updateError": "Could not update the role. Please try again.",
+    "addUser": {
+      "title": "Add user",
+      "password": "Temporary password",
+      "passwordHint": "At least 6 characters",
+      "cancel": "Cancel",
+      "submit": "Create account"
+    }
   },
   "translationsPage": {
     "title": "Translations",
@@ -106,6 +135,17 @@
     "byCategoryTitle": "Reads by category",
     "byCategoryEmpty": "No reads recorded yet.",
     "trendTitle": "Reads over the last 14 days",
-    "noData": "—"
+    "noData": "—",
+    "detail": {
+      "title": "Per-notification detail",
+      "noPublished": "No notifications published yet.",
+      "readCount": "Read ({count}/{total})",
+      "unreadCount": "Unread ({count})",
+      "noReaders": "No one has read it yet.",
+      "allRead": "Everyone in the recipient group has read it.",
+      "name": "Name",
+      "readAt": "Read at",
+      "department": "Department"
+    }
   }
 }

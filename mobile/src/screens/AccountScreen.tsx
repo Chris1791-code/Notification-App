@@ -37,15 +37,13 @@ export function AccountScreen() {
 
       <View style={styles.spacer} />
 
-      {user ? (
+      {user && (
         <View>
           <Text style={styles.userEmail}>{user.email}</Text>
           <Pressable style={styles.button} onPress={() => signOut(auth)}>
             <Text style={styles.buttonText}>{t('account.logout')}</Text>
           </Pressable>
         </View>
-      ) : (
-        <Text style={styles.hint}>{t('account.login')}: TODO — màn hình đăng nhập cho SV/GV.</Text>
       )}
     </SafeAreaView>
   );
@@ -69,6 +67,5 @@ const styles = StyleSheet.create({
   spacer: { height: 24 },
   userEmail: { fontSize: 14, color: '#0F172A', marginBottom: 12 },
   button: { backgroundColor: '#00529B', borderRadius: 10, paddingVertical: 12, alignItems: 'center' },
-  buttonText: { color: '#FFFFFF', fontWeight: '600' },
-  hint: { fontSize: 13, color: '#94A3B8' }
+  buttonText: { color: '#FFFFFF', fontWeight: '600' }
 });

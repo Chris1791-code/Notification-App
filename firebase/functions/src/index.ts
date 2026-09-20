@@ -3,15 +3,20 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { logger } from 'firebase-functions';
 import { sendExpoPushNotifications, type ExpoPushMessage } from './expoPush';
+import { matchesTargetFilter, type TargetFilter } from './targetFilter';
 
 initializeApp();
 
+export { createUserAccount } from './createUserAccount';
+
 /**
  * Gửi push khi một thông báo chuyển trạng thái sang "published" lần đầu.
+ * Người nhận được lọc theo `targetFilter` của thông báo (department/program/
+ * major/cohort/role) — rỗng nghĩa là gửi cho toàn bộ người dùng.
  *
  * Quy mô hiện tại (một trường đại học) đủ nhỏ để quét toàn bộ collection
  * `users` mỗi lần đăng bài; nếu số người dùng lớn hơn nhiều, nên tách token
- * ra một collection riêng được index theo targetGroups thay vì quét users.
+ * ra một collection riêng được index theo các trường lọc thay vì quét users.
  */
 export const onNotificationPublished = onDocumentWritten('notifications/{notificationId}', async (event) => {
   const before = event.data?.before.data();
@@ -23,10 +28,13 @@ export const onNotificationPublished = onDocumentWritten('notifications/{notific
 
   const db = getFirestore();
   const usersSnap = await db.collection('users').get();
+  const targetFilter = after.targetFilter as TargetFilter | undefined;
 
   const tokens = new Set<string>();
   usersSnap.forEach((doc) => {
-    const userTokens = doc.data().expoPushTokens as string[] | undefined;
+    const user = doc.data();
+    if (!matchesTargetFilter(user, targetFilter)) return;
+    const userTokens = user.expoPushTokens as string[] | undefined;
     userTokens?.forEach((token) => tokens.add(token));
   });
 

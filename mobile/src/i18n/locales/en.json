@@ -29,6 +29,18 @@
     "login": "Sign in",
     "logout": "Sign out"
   },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "displayName": "Full name",
+    "email": "Email",
+    "password": "Password",
+    "signInButton": "Sign in",
+    "signUpButton": "Create account",
+    "switchToSignUp": "No account yet? Sign up",
+    "switchToSignIn": "Already have an account? Sign in",
+    "subtitle": "Sign in with your school or personal email to receive notifications from OISP"
+  },
   "detail": {
     "attachments": "Attachments",
     "save": "Save",

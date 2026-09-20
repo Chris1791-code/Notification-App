@@ -29,6 +29,18 @@
     "login": "Đăng nhập",
     "logout": "Đăng xuất"
   },
+  "auth": {
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "displayName": "Họ và tên",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "signInButton": "Đăng nhập",
+    "signUpButton": "Tạo tài khoản",
+    "switchToSignUp": "Chưa có tài khoản? Đăng ký",
+    "switchToSignIn": "Đã có tài khoản? Đăng nhập",
+    "subtitle": "Đăng nhập bằng email trường/cá nhân để nhận thông báo từ VP. Đào tạo Quốc tế"
+  },
   "detail": {
     "attachments": "Tài liệu đính kèm",
     "save": "Lưu",

@@ -1,8 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useParams } from 'next/navigation';
+import { usePathname, useParams, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { useAuth } from '@/hooks/useAuth';
 
 const ITEMS = [
   { href: 'dashboard', key: 'dashboard', icon: '📊' },
@@ -18,7 +21,14 @@ export function Sidebar() {
   const t = useTranslations('nav');
   const pathname = usePathname();
   const params = useParams();
+  const router = useRouter();
   const locale = params.locale as string;
+  const { firebaseUser, profile } = useAuth();
+
+  async function handleLogout() {
+    await signOut(auth);
+    router.push(`/${locale}/login`);
+  }
 
   return (
     <aside className="flex h-screen w-64 flex-col border-r border-gray-200 bg-white">
@@ -44,6 +54,20 @@ export function Sidebar() {
           );
         })}
       </nav>
+      <div className="border-t border-gray-200 px-4 py-3">
+        {firebaseUser && (
+          <p className="mb-2 truncate text-xs text-gray-500" title={firebaseUser.email ?? undefined}>
+            {profile?.displayName ?? firebaseUser.email}
+          </p>
+        )}
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center gap-2 rounded px-3 py-2 text-sm text-gray-600 hover:bg-gray-50"
+        >
+          <span>🚪</span>
+          {t('logout')}
+        </button>
+      </div>
     </aside>
   );
 }
