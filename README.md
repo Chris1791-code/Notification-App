@@ -50,7 +50,9 @@ npm run dev:web
 # http://localhost:3000 → tự chuyển sang /vi/admin/dashboard hoặc /en/admin/dashboard
 ```
 
-Deploy lên Vercel: import repo, chọn **Root Directory = `web`**, khai báo các biến môi trường `NEXT_PUBLIC_FIREBASE_*` trong Vercel Project Settings. Bản chạy thật: https://notification-app-taupe.vercel.app
+Deploy lên Vercel: import repo, chọn **Root Directory = `web`**, khai báo các biến môi trường `NEXT_PUBLIC_FIREBASE_*` trong Vercel Project Settings. Bản chạy thật: https://oisp-notification.vercel.app
+
+Domain phải được thêm vào **Firebase Console → Authentication → Settings → Authorized domains**, nếu không đăng nhập sẽ báo lỗi `auth/unauthorized-domain`.
 
 Nếu build báo lỗi `Couldn't find any pages or app directory`, Root Directory chưa được áp dụng đúng — vào Project Settings → General → Root Directory, xác nhận giá trị là `web`, lưu lại rồi trigger một deployment mới (push commit mới, không dùng nút "Redeploy" trên một deployment cũ vì nó có thể kế thừa cấu hình cũ tại thời điểm deployment đó được tạo).
 
