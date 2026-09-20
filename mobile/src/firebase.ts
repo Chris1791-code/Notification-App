@@ -1,6 +1,9 @@
 import { initializeApp, getApps, getApp, type FirebaseOptions } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+// Cần cài đặt (không cần import trực tiếp) — Firebase Auth tự phát hiện React Native
+// và dùng AsyncStorage để lưu phiên đăng nhập nếu gói này có mặt trong node_modules.
+import '@react-native-async-storage/async-storage';
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
@@ -13,9 +16,6 @@ const firebaseConfig: FirebaseOptions = {
 
 export const firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-// TODO: cấu hình persistence bằng AsyncStorage (initializeAuth + getReactNativePersistence
-// theo hướng dẫn RN của Firebase) trước khi lên production, để phiên đăng nhập không mất
-// khi tắt app. getAuth() mặc định chỉ giữ phiên trong bộ nhớ của lần chạy hiện tại.
 export const auth = getAuth(firebaseApp);
 
 export const db = getFirestore(firebaseApp);

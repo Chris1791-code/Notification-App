@@ -26,7 +26,7 @@ service cloud.firestore {
     // Users: a user can read/update their own profile; only admins manage roles for others.
     match /users/{uid} {
       allow read: if isSignedIn() && (request.auth.uid == uid || isEditor());
-      allow create: if isSignedIn() && request.auth.uid == uid;
+      allow create: if isSignedIn() && request.auth.uid == uid && request.resource.data.role == 'student';
       allow update: if isSignedIn() &&
         (request.auth.uid == uid && request.resource.data.role == resource.data.role || isAdmin());
       allow delete: if isAdmin();

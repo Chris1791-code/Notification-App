@@ -1,13 +1,18 @@
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
+import { onAuthStateChanged, type User } from 'firebase/auth';
+import { auth } from '@/firebase';
 import { HomeScreen } from '@/screens/HomeScreen';
 import { CategoriesScreen } from '@/screens/CategoriesScreen';
 import { SavedScreen } from '@/screens/SavedScreen';
 import { MyNotificationsScreen } from '@/screens/MyNotificationsScreen';
 import { AccountScreen } from '@/screens/AccountScreen';
 import { NotificationDetailScreen } from '@/screens/NotificationDetailScreen';
+import { LoginScreen } from '@/screens/LoginScreen';
 import type { AppNotification } from '@/types';
 
 export type RootStackParamList = {
@@ -41,6 +46,30 @@ function Tabs() {
 }
 
 export function RootNavigator() {
+  const [user, setUser] = useState<User | null>(null);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, (u) => {
+        setUser(u);
+        setCheckingAuth(false);
+      }),
+    []
+  );
+
+  if (checkingAuth) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F8FAFC' }}>
+        <ActivityIndicator color="#00529B" />
+      </View>
+    );
+  }
+
+  if (!user) {
+    return <LoginScreen />;
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>

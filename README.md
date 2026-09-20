@@ -61,7 +61,34 @@ npm run dev:mobile
 # quét QR bằng Expo Go, hoặc nhấn `a`/`i` để mở Android/iOS simulator
 ```
 
-Build production dùng [EAS Build](https://docs.expo.dev/build/introduction/) (`eas build --platform android|ios`). Chạy `eas init` một lần để gắn `extra.eas.projectId` (bắt buộc để lấy Expo push token — xem `mobile/src/notifications.ts`).
+Copy `mobile/.env.example` thành `mobile/.env` và điền cùng bộ `NEXT_PUBLIC_FIREBASE_*` đã dùng cho web (đổi tiền tố thành `EXPO_PUBLIC_FIREBASE_*`) — app mobile dùng chung project Firebase với web admin.
+
+Đăng nhập/Đăng ký: sinh viên/giảng viên tự đăng ký bằng email (`mobile/src/screens/LoginScreen.tsx`, email/password qua Firebase Auth). Tài khoản tự đăng ký luôn được gán `role: student` — Firestore rules (`firebase/firestore.rules`) chặn việc client tự đặt vai trò `admin`/`editor` khi tạo hồ sơ; muốn nâng vai trò phải qua trang **Quản lý người dùng** trên web admin.
+
+### Build iOS qua EAS (không cần máy Mac)
+
+```bash
+npm install -g eas-cli
+cd mobile
+eas login                 # đăng nhập tài khoản Expo (tạo miễn phí tại expo.dev nếu chưa có)
+eas init                  # gắn project vào EAS, tự điền extra.eas.projectId vào app.json
+```
+
+Khai báo biến môi trường `EXPO_PUBLIC_FIREBASE_*` cho bản build cloud (không commit giá trị thật vào repo):
+
+```bash
+eas env:create --scope project --name EXPO_PUBLIC_FIREBASE_API_KEY --environment production --visibility plaintext
+# lặp lại cho AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID
+```
+
+Sau đó build:
+
+```bash
+eas build --platform ios --profile preview   # bản .ipa cài thử qua TestFlight/Ad Hoc, cần Apple Developer account (99 USD/năm) khi eas hỏi credentials
+eas build --platform ios --profile production
+```
+
+`eas.json` đã có sẵn 3 profile (`development`, `preview`, `production`). Lần đầu build iOS, EAS sẽ hỏi tạo/đăng nhập Apple Developer account để tự sinh certificate & provisioning profile — không cần Xcode hay máy Mac vì build chạy trên cloud của Expo.
 
 ## Mô hình dữ liệu Firestore (tóm tắt)
 
@@ -104,7 +131,8 @@ Danh mục 15 nhóm hiện tại (`academic`, `exams`, `student-affairs`, `finan
 - [x] Đẩy thông báo qua Expo Push Service (chuyển tiếp qua FCM/APNs) — `firebase/functions`, `mobile/src/notifications.ts`.
 - [x] Dịch nháp tự động qua Google Cloud Translation API + duyệt thủ công — `web/src/app/api/translate`, trang Đa ngôn ngữ.
 - [x] Thống kê tỷ lệ đọc theo danh mục/thời gian — `web/src/app/[locale]/admin/reports`.
-- [ ] Cấu hình lại `auth` trong `mobile/src/firebase.ts` dùng `initializeAuth` + AsyncStorage persistence (xem TODO trong file) để giữ phiên đăng nhập qua các lần mở app.
+- [x] Màn hình đăng nhập/đăng ký cho sinh viên/giảng viên trên mobile (email/password, tự gán `role: student`) — `mobile/src/screens/LoginScreen.tsx`. Phiên đăng nhập được giữ qua AsyncStorage (Firebase Auth tự phát hiện React Native).
+  - [ ] Đăng nhập Google trên mobile (`@react-native-google-signin/google-signin`) — hiện chỉ có email/password, web vẫn có nút Google riêng.
 - [ ] Đối chiếu khung 15 danh mục thông báo với danh mục chính thức của ĐHBK.
 - [ ] Xuất báo cáo (Excel/PDF) từ trang Thống kê — hiện chỉ xem trên web.
 - [ ] Rà soát `npm audit` định kỳ ở cả 3 workspace (`web`, `mobile`, `firebase/functions`): nhánh Next.js 14.2.x là bản vá mới nhất trong dòng 14 nhưng advisory database vẫn gộp một số CVE chỉ có bản vá đầy đủ ở Next 16 (breaking change); vài advisory `expo`/`@expo/*` và `uuid` (qua `gaxios` trong `firebase-admin`) ở mức moderate hiện chưa có bản vá phát hành — thuộc tooling build-time/dependency ngoài tầm kiểm soát trực tiếp, cân nhắc trước khi go-live.
