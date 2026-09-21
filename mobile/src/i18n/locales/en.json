@@ -39,7 +39,8 @@
     "signUpButton": "Create account",
     "switchToSignUp": "No account yet? Sign up",
     "switchToSignIn": "Already have an account? Sign in",
-    "subtitle": "Sign in with your school or personal email to receive notifications from OISP"
+    "subtitle": "Sign in with your school or personal email to receive notifications from OISP",
+    "domainNotAllowed": "Only email addresses on these domains are allowed: {{domains}}"
   },
   "detail": {
     "attachments": "Attachments",

@@ -7,6 +7,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase';
 import { useCategories } from '@/hooks/useCategories';
 import { TargetFilterEditor } from '@/components/TargetFilterEditor';
+import { authHeader } from '@/lib/authFetch';
 import type { NotificationPriority, NotificationStatus, TargetFilter } from '@/lib/types';
 
 export function NotificationForm() {
@@ -84,7 +85,7 @@ export function NotificationForm() {
     try {
       const res = await fetch('/api/translate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...(await authHeader()) },
         body: JSON.stringify({ titleVi, bodyVi })
       });
       const json = (await res.json()) as { titleEn?: string; bodyEn?: string; error?: string };
