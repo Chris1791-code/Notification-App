@@ -6,6 +6,7 @@ import { useNotifications } from '@/hooks/useNotifications';
 import { useUsers } from '@/hooks/useUsers';
 import { useNotificationReads } from '@/hooks/useNotificationReads';
 import { matchesTargetFilter } from '@/lib/targetFilter';
+import { StatCard } from '@/components/StatCard';
 
 function formatDate(date: Date) {
   return date.toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
@@ -18,7 +19,10 @@ export function NotificationReadDetail() {
   const { reads } = useNotificationReads();
 
   const published = useMemo(
-    () => notifications.filter((n) => n.status === 'published').sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)),
+    () =>
+      notifications
+        .filter((n) => n.status === 'published')
+        .sort((a, b) => (b.publishAt ?? '').localeCompare(a.publishAt ?? '')),
     [notifications]
   );
   const [notificationId, setNotificationId] = useState('');
@@ -46,6 +50,8 @@ export function NotificationReadDetail() {
 
   const unread = useMemo(() => audience.filter((u) => !readerUids.has(u.uid)), [audience, readerUids]);
 
+  const openRate = audience.length === 0 ? null : (readers.length / audience.length) * 100;
+
   if (published.length === 0) {
     return <p className="text-sm text-gray-400">{t('noPublished')}</p>;
   }
@@ -68,7 +74,13 @@ export function NotificationReadDetail() {
       </div>
 
       {selected && (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <>
+          <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <StatCard label={t('openRate')} value={openRate === null ? t('noAudience') : `${openRate.toFixed(0)}%`} />
+            <StatCard label={t('readCountLabel')} value={readers.length} />
+            <StatCard label={t('audienceLabel')} value={audience.length} />
+          </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
             <p className="mb-2 text-xs font-medium text-gray-500">
               {t('readCount', { count: readers.length, total: audience.length })}
@@ -134,7 +146,8 @@ export function NotificationReadDetail() {
               </table>
             </div>
           </div>
-        </div>
+          </div>
+        </>
       )}
     </div>
   );

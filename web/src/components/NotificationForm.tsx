@@ -23,13 +23,33 @@ export function NotificationForm() {
   const [categoryId, setCategoryId] = useState(categories[0]?.id ?? '');
   const [priority, setPriority] = useState<NotificationPriority>('normal');
   const [status, setStatus] = useState<NotificationStatus>('draft');
+  const [scheduledAt, setScheduledAt] = useState('');
   const [targetFilter, setTargetFilter] = useState<TargetFilter>({});
   const [saving, setSaving] = useState(false);
   const [translating, setTranslating] = useState(false);
   const [translateError, setTranslateError] = useState<string | null>(null);
+  const [scheduleError, setScheduleError] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
+    setScheduleError(null);
+
+    let publishAt: string | null = null;
+    if (status === 'published') {
+      publishAt = new Date().toISOString();
+    } else if (status === 'scheduled') {
+      if (!scheduledAt) {
+        setScheduleError('Chọn thời gian hẹn gửi.');
+        return;
+      }
+      const scheduledDate = new Date(scheduledAt);
+      if (scheduledDate.getTime() <= Date.now()) {
+        setScheduleError('Thời gian hẹn gửi phải ở tương lai.');
+        return;
+      }
+      publishAt = scheduledDate.toISOString();
+    }
+
     setSaving(true);
     try {
       await addDoc(collection(db, 'notifications'), {
@@ -42,7 +62,7 @@ export function NotificationForm() {
         status,
         targetFilter,
         attachments: [],
-        publishAt: status === 'published' ? new Date().toISOString() : null,
+        publishAt,
         createdBy: auth.currentUser?.uid ?? 'unknown',
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -168,6 +188,20 @@ export function NotificationForm() {
           <option value="published">Đã đăng</option>
         </select>
       </div>
+      {status === 'scheduled' && (
+        <div>
+          <label className="mb-1 block text-sm font-medium">{t('scheduledAt')}</label>
+          <input
+            type="datetime-local"
+            value={scheduledAt}
+            onChange={(e) => setScheduledAt(e.target.value)}
+            min={new Date().toISOString().slice(0, 16)}
+            className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
+          />
+          <p className="mt-1 text-xs text-gray-400">{t('scheduledAtHint')}</p>
+          {scheduleError && <p className="mt-1 text-sm text-red-600">{scheduleError}</p>}
+        </div>
+      )}
       <div>
         <label className="mb-1 block text-sm font-medium">{t('targeting.title')}</label>
         <TargetFilterEditor value={targetFilter} onChange={setTargetFilter} />

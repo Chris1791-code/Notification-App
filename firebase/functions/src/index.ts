@@ -8,6 +8,7 @@ import { matchesTargetFilter, type TargetFilter } from './targetFilter';
 initializeApp();
 
 export { createUserAccount } from './createUserAccount';
+export { publishScheduledNotifications } from './publishScheduledNotifications';
 
 /**
  * Gửi push khi một thông báo chuyển trạng thái sang "published" lần đầu.

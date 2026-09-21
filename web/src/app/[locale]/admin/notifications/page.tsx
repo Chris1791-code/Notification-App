@@ -16,6 +16,17 @@ export default function NotificationsPage() {
 
   const categoryName = (id: string) => categories.find((c) => c.id === id)?.nameVi ?? id;
 
+  function formatPublishAt(publishAt: string | null) {
+    if (!publishAt) return '—';
+    return new Date(publishAt).toLocaleString('vi-VN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
@@ -36,19 +47,20 @@ export default function NotificationsPage() {
               <th className="px-4 py-2">Danh mục</th>
               <th className="px-4 py-2">Trạng thái</th>
               <th className="px-4 py-2">Ưu tiên</th>
+              <th className="px-4 py-2">Thời gian</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {loading && (
               <tr>
-                <td className="px-4 py-3 text-gray-400" colSpan={4}>
+                <td className="px-4 py-3 text-gray-400" colSpan={5}>
                   Đang tải…
                 </td>
               </tr>
             )}
             {!loading && notifications.length === 0 && (
               <tr>
-                <td className="px-4 py-3 text-gray-400" colSpan={4}>
+                <td className="px-4 py-3 text-gray-400" colSpan={5}>
                   Chưa có thông báo nào. Kết nối Firestore hoặc tạo mới để bắt đầu.
                 </td>
               </tr>
@@ -61,6 +73,7 @@ export default function NotificationsPage() {
                 </td>
                 <td className="px-4 py-2">{t(`status.${n.status}`)}</td>
                 <td className="px-4 py-2">{t(`priority.${n.priority}`)}</td>
+                <td className="px-4 py-2 text-gray-500">{formatPublishAt(n.publishAt)}</td>
               </tr>
             ))}
           </tbody>
