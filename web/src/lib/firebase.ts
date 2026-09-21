@@ -3,6 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { getFunctions } from 'firebase/functions';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -18,3 +19,15 @@ export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
 export const storage = getStorage(firebaseApp);
 export const functions = getFunctions(firebaseApp);
+
+// App Check chỉ khởi tạo được trên trình duyệt (cần window/reCAPTCHA script) và
+// chỉ khi đã cấu hình site key — để trống thì bỏ qua, không phá app hiện tại.
+// XEM README mục "Firebase App Check" trước khi bật enforce trên Console:
+// bật enforce quá sớm (trước khi site này thật sự gửi được token) sẽ khiến
+// Firebase từ chối toàn bộ request của chính app.
+if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+  initializeAppCheck(firebaseApp, {
+    provider: new ReCaptchaV3Provider(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY),
+    isTokenAutoRefreshEnabled: true
+  });
+}

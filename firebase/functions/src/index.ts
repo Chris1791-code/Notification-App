@@ -8,6 +8,7 @@ import { matchesTargetFilter, type TargetFilter } from './targetFilter';
 initializeApp();
 
 export { createUserAccount } from './createUserAccount';
+export { bulkCreateUserAccounts } from './bulkCreateUserAccounts';
 export { publishScheduledNotifications } from './publishScheduledNotifications';
 
 /**

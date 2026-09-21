@@ -120,6 +120,24 @@ Danh mục 15 nhóm hiện tại (`academic`, `exams`, `student-affairs`, `finan
 - Cloud Function `onNotificationPublished` (`firebase/functions/src/index.ts`) trigger khi một document trong `notifications` chuyển `status` sang `published` lần đầu, gom token từ toàn bộ `users` rồi gửi qua Expo Push API.
 - Quy mô hiện tại (quét toàn bộ `users`) phù hợp cho một trường đại học; nếu cần mở rộng, nên tách token ra collection riêng có index theo `targetGroups` thay vì quét toàn bộ người dùng mỗi lần đăng bài.
 
+## Bảo mật: Firebase App Check
+
+App Check xác minh request đến từ đúng app thật (không phải bot/script tự gọi API), chặn được nhiều kiểu lạm dụng mà Firestore rules/Cloud Functions không tự chặn được. **Bật sai thứ tự sẽ tự khóa chính app đang chạy thật** — làm đúng theo trình tự sau:
+
+1. **Web (làm trước, an toàn ngay cả khi chưa xong các bước sau):**
+   - Tạo site key reCAPTCHA v3 tại <https://www.google.com/recaptcha/admin> — thêm domain `oisp-notification.vercel.app` (và domain preview nếu cần test).
+   - Firebase Console → **App Check** → tab **Apps** → chọn app Web → **Register** → dán site key reCAPTCHA v3 vừa tạo.
+   - Thêm biến môi trường `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` (giá trị = site key đó) vào Vercel Project Settings → Environment Variables, rồi redeploy. `web/src/lib/firebase.ts` tự khởi tạo App Check khi biến này tồn tại — không set thì bỏ qua, không ảnh hưởng gì.
+   - **Chưa bật Enforce vội.** Vào Firebase Console → App Check → tab **APIs**, để trạng thái **Unenforced** (chỉ theo dõi) với Firestore ít nhất vài giờ đến vài ngày, xem biểu đồ "Requests" có phần lớn là "Verified" không.
+   - Khi đã thấy phần lớn request là Verified (nghĩa là web app thật đang gửi token đúng), mới chuyển Firestore sang **Enforced**. Làm tương tự cho Cloud Functions (bấm **Enforce** ở dòng `default` codebase) — CHỈ sau khi đã xác nhận web hoạt động ổn với App Check.
+2. **Mobile (làm khi build app thật qua EAS, không áp dụng được cho Expo Go):**
+   - Cần `expo-app-check`/`@react-native-firebase/app-check` (chưa cài — không hoạt động trong Expo Go, chỉ chạy được trong development build/production build qua EAS).
+   - Android: liên kết app với **Play Integrity API** trong Google Play Console.
+   - iOS: dùng **DeviceCheck** hoặc **App Attest**, cần Apple Developer Program.
+   - Vì phụ thuộc vào việc app đã build thật (bundle ID, Play Console/App Store Connect đã thiết lập), việc này nên làm ở giai đoạn build app iOS/Android, không phải bây giờ.
+
+Ở cả hai, **không được bật Enforced cho bất kỳ API nào** trước khi client tương ứng đã thật sự tích hợp App Check và có dữ liệu "Verified" trong Console — nếu không, chính admin/sinh viên thật cũng bị chặn.
+
 ## Thống kê & Báo cáo
 
 - Trang **Thống kê & Báo cáo** (`web/src/app/[locale]/admin/reports`): tổng lượt đọc, số thông báo đã đăng, tỷ lệ đọc trung bình (lượt đọc / tổng người dùng, trung bình trên các thông báo đã đăng), danh mục nhiều lượt đọc nhất, biểu đồ lượt đọc theo danh mục và theo 14 ngày gần nhất.
@@ -128,7 +146,7 @@ Danh mục 15 nhóm hiện tại (`academic`, `exams`, `student-affairs`, `finan
 
 ## Việc còn cần làm trước khi triển khai thật (production)
 
-- [x] Quản lý người dùng: danh sách, tìm kiếm, lọc theo vai trò/khoa, đổi vai trò (admin), **thêm người dùng mới** (Cloud Function `createUserAccount`, tránh việc `createUserWithEmailAndPassword` ở client đăng xuất mất phiên admin), sửa trực tiếp Khoa/Đơn vị, **Chương trình**, **Ngành học**, Khóa — `web/src/app/[locale]/admin/users`, `web/src/components/AddUserModal.tsx`.
+- [x] Quản lý người dùng: danh sách, tìm kiếm, lọc theo vai trò/khoa, đổi vai trò (admin), **thêm người dùng mới** (Cloud Function `createUserAccount`, tránh việc `createUserWithEmailAndPassword` ở client đăng xuất mất phiên admin), **thêm hàng loạt từ file CSV** (Cloud Function `bulkCreateUserAccounts`, tối đa 300 dòng/lần, tự tạo mật khẩu tạm nếu bỏ trống, báo lỗi từng dòng — vd. email trùng), sửa trực tiếp Khoa/Đơn vị, **Chương trình**, **Ngành học**, Khóa — `web/src/app/[locale]/admin/users`, `web/src/components/AddUserModal.tsx`, `web/src/components/BulkAddUsersModal.tsx`.
 - [x] Nhóm nhận thông báo theo vai trò/khoa/chương trình/ngành/khóa (target segmentation khi tạo thông báo) — `web/src/components/TargetFilterEditor.tsx`, lọc người nhận push trong `onNotificationPublished` (`firebase/functions/src/targetFilter.ts`). Không chọn gì = gửi cho tất cả (giữ hành vi mặc định cũ).
 - [x] Quản lý danh mục thông báo (thêm/sửa/xóa, đổi tên VI/EN, icon, thứ tự) cho admin/editor, có nút nạp nhanh 15 danh mục mặc định — `web/src/app/[locale]/admin/categories`.
 - [x] Đăng xuất trên web admin — `web/src/components/Sidebar.tsx`.

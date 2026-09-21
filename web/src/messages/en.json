@@ -110,6 +110,19 @@
       "passwordHint": "At least 6 characters",
       "cancel": "Cancel",
       "submit": "Create account"
+    },
+    "bulkAdd": {
+      "title": "Bulk add",
+      "instructions": "Download the template, fill in the columns, then upload it (CSV). Leave the Password column blank to auto-generate a temporary password for each person.",
+      "downloadTemplate": "Download template (CSV)",
+      "chooseFile": "Choose CSV file",
+      "summary": "{valid}/{total} rows are valid and ready to create.",
+      "status": "Status",
+      "submit": "Create {count} accounts",
+      "resultSummary": "Created {success} accounts successfully, {error} failed.",
+      "tempPassword": "Temp password",
+      "downloadResults": "Download results (CSV)",
+      "done": "Done"
     }
   },
   "translationsPage": {
