@@ -110,6 +110,19 @@
       "passwordHint": "Ít nhất 6 ký tự",
       "cancel": "Hủy",
       "submit": "Tạo tài khoản"
+    },
+    "bulkAdd": {
+      "title": "Thêm hàng loạt",
+      "instructions": "Tải file mẫu, điền danh sách theo cột rồi tải lên (CSV). Bỏ trống cột Mật khẩu để hệ thống tự tạo mật khẩu tạm cho từng người.",
+      "downloadTemplate": "Tải file mẫu (CSV)",
+      "chooseFile": "Chọn file CSV",
+      "summary": "{valid}/{total} dòng hợp lệ, sẵn sàng tạo tài khoản.",
+      "status": "Trạng thái",
+      "submit": "Tạo {count} tài khoản",
+      "resultSummary": "Đã tạo thành công {success} tài khoản, {error} lỗi.",
+      "tempPassword": "Mật khẩu tạm",
+      "downloadResults": "Tải kết quả (CSV)",
+      "done": "Xong"
     }
   },
   "translationsPage": {

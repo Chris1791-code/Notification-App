@@ -7,6 +7,7 @@ import { db } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { useUsers } from '@/hooks/useUsers';
 import { AddUserModal } from '@/components/AddUserModal';
+import { BulkAddUsersModal } from '@/components/BulkAddUsersModal';
 import type { AppUser, UserRole } from '@/lib/types';
 
 const ROLES: UserRole[] = ['admin', 'editor', 'student', 'staff'];
@@ -24,6 +25,7 @@ export default function UsersPage() {
   const [updatingUid, setUpdatingUid] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showBulkModal, setShowBulkModal] = useState(false);
 
   const departments = useMemo(() => {
     const set = new Set(users.map((u) => u.department).filter((d): d is string => Boolean(d)));
@@ -67,12 +69,20 @@ export default function UsersPage() {
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-xl font-semibold">{t('title')}</h1>
         {isAdmin && (
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="rounded bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark"
-          >
-            {t('addUser.title')}
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setShowBulkModal(true)}
+              className="rounded border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50"
+            >
+              {t('bulkAdd.title')}
+            </button>
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="rounded bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark"
+            >
+              {t('addUser.title')}
+            </button>
+          </div>
         )}
       </div>
 
@@ -182,6 +192,7 @@ export default function UsersPage() {
       {!isAdmin && <p className="mt-3 text-xs text-gray-400">{t('readonlyHint')}</p>}
 
       {showAddModal && <AddUserModal onClose={() => setShowAddModal(false)} onCreated={() => setShowAddModal(false)} />}
+      {showBulkModal && <BulkAddUsersModal onClose={() => setShowBulkModal(false)} />}
     </div>
   );
 }

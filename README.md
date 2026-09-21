@@ -146,7 +146,7 @@ App Check xác minh request đến từ đúng app thật (không phải bot/scr
 
 ## Việc còn cần làm trước khi triển khai thật (production)
 
-- [x] Quản lý người dùng: danh sách, tìm kiếm, lọc theo vai trò/khoa, đổi vai trò (admin), **thêm người dùng mới** (Cloud Function `createUserAccount`, tránh việc `createUserWithEmailAndPassword` ở client đăng xuất mất phiên admin), sửa trực tiếp Khoa/Đơn vị, **Chương trình**, **Ngành học**, Khóa — `web/src/app/[locale]/admin/users`, `web/src/components/AddUserModal.tsx`.
+- [x] Quản lý người dùng: danh sách, tìm kiếm, lọc theo vai trò/khoa, đổi vai trò (admin), **thêm người dùng mới** (Cloud Function `createUserAccount`, tránh việc `createUserWithEmailAndPassword` ở client đăng xuất mất phiên admin), **thêm hàng loạt từ file CSV** (Cloud Function `bulkCreateUserAccounts`, tối đa 300 dòng/lần, tự tạo mật khẩu tạm nếu bỏ trống, báo lỗi từng dòng — vd. email trùng), sửa trực tiếp Khoa/Đơn vị, **Chương trình**, **Ngành học**, Khóa — `web/src/app/[locale]/admin/users`, `web/src/components/AddUserModal.tsx`, `web/src/components/BulkAddUsersModal.tsx`.
 - [x] Nhóm nhận thông báo theo vai trò/khoa/chương trình/ngành/khóa (target segmentation khi tạo thông báo) — `web/src/components/TargetFilterEditor.tsx`, lọc người nhận push trong `onNotificationPublished` (`firebase/functions/src/targetFilter.ts`). Không chọn gì = gửi cho tất cả (giữ hành vi mặc định cũ).
 - [x] Quản lý danh mục thông báo (thêm/sửa/xóa, đổi tên VI/EN, icon, thứ tự) cho admin/editor, có nút nạp nhanh 15 danh mục mặc định — `web/src/app/[locale]/admin/categories`.
 - [x] Đăng xuất trên web admin — `web/src/components/Sidebar.tsx`.
