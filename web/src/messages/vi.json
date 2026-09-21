@@ -52,6 +52,8 @@
         "title": "Nhóm nhận thông báo",
         "everyoneHint": "Không chọn gì = gửi cho tất cả người dùng.",
         "filteredHint": "Chỉ gửi cho người dùng khớp với ít nhất một lựa chọn trong mỗi nhóm đã chọn bên dưới.",
+        "exactMatchHint": "Gõ giá trị rồi nhấn Enter hoặc bấm \"Thêm\" — phải khớp chính xác với dữ liệu trong Quản lý người dùng (phân biệt hoa/thường, ví dụ \"K2026\", \"Khoa học máy tính\").",
+        "typeHint": "Gõ giá trị rồi Enter…",
         "roles": "Vai trò",
         "departments": "Khoa/Đơn vị",
         "programs": "Chương trình",

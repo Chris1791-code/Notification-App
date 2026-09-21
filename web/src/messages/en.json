@@ -52,6 +52,8 @@
         "title": "Recipient group",
         "everyoneHint": "Nothing selected = send to every user.",
         "filteredHint": "Only sent to users matching at least one choice in every group selected below.",
+        "exactMatchHint": "Type a value and press Enter or click \"Add\" — it must match the data in User Management exactly (case-sensitive, e.g. \"K2026\", \"Computer Science\").",
+        "typeHint": "Type a value and press Enter…",
         "roles": "Role",
         "departments": "Department",
         "programs": "Program",
