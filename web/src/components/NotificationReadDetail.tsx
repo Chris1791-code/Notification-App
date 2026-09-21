@@ -18,7 +18,10 @@ export function NotificationReadDetail() {
   const { reads } = useNotificationReads();
 
   const published = useMemo(
-    () => notifications.filter((n) => n.status === 'published').sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)),
+    () =>
+      notifications
+        .filter((n) => n.status === 'published')
+        .sort((a, b) => (b.publishAt ?? '').localeCompare(a.publishAt ?? '')),
     [notifications]
   );
   const [notificationId, setNotificationId] = useState('');

@@ -45,6 +45,8 @@
       "category": "Danh mục",
       "priority": "Mức độ ưu tiên",
       "status": "Trạng thái",
+      "scheduledAt": "Thời gian hẹn gửi",
+      "scheduledAtHint": "Thông báo tự động chuyển sang \"Đã đăng\" và gửi push trong vòng 5 phút sau thời điểm này.",
       "attachments": "Tài liệu đính kèm",
       "save": "Lưu thông báo",
       "translateDraft": "Tạo bản dịch nháp (Google Translate)",

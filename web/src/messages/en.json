@@ -45,6 +45,8 @@
       "category": "Category",
       "priority": "Priority",
       "status": "Status",
+      "scheduledAt": "Scheduled time",
+      "scheduledAtHint": "The notification switches to \"Published\" and sends push within 5 minutes after this time.",
       "attachments": "Attachments",
       "save": "Save notification",
       "translateDraft": "Generate draft translation (Google Translate)",
