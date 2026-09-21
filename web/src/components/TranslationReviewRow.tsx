@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { authHeader } from '@/lib/authFetch';
 import type { AppNotification } from '@/lib/types';
 
 export function TranslationReviewRow({ notification }: { notification: AppNotification }) {
@@ -29,7 +30,7 @@ export function TranslationReviewRow({ notification }: { notification: AppNotifi
     try {
       const res = await fetch('/api/translate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...(await authHeader()) },
         body: JSON.stringify({ titleVi: notification.titleVi, bodyVi: notification.bodyVi })
       });
       const json = (await res.json()) as { titleEn?: string; bodyEn?: string; error?: string };

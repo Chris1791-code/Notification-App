@@ -23,12 +23,29 @@ service cloud.firestore {
       return role() == 'admin' || role() == 'editor';
     }
 
+    // department/program/major/cohort quyết định ai nằm trong nhóm nhận một
+    // thông báo (targetFilter) — không cho tự đổi, chỉ admin gán được, để
+    // không ai tự "xin vào" hoặc "trốn" một nhóm nhận bằng cách tự sửa hồ sơ.
+    function targetingFieldsUnchanged() {
+      return request.resource.data.get('department', null) == resource.data.get('department', null) &&
+        request.resource.data.get('program', null) == resource.data.get('program', null) &&
+        request.resource.data.get('major', null) == resource.data.get('major', null) &&
+        request.resource.data.get('cohort', null) == resource.data.get('cohort', null);
+    }
+
     // Users: a user can read/update their own profile; only admins manage roles for others.
     match /users/{uid} {
       allow read: if isSignedIn() && (request.auth.uid == uid || isEditor());
-      allow create: if isSignedIn() && request.auth.uid == uid && request.resource.data.role == 'student';
+      allow create: if isSignedIn() && request.auth.uid == uid &&
+        request.resource.data.role == 'student' &&
+        !('department' in request.resource.data) &&
+        !('program' in request.resource.data) &&
+        !('major' in request.resource.data) &&
+        !('cohort' in request.resource.data);
       allow update: if isSignedIn() &&
-        (request.auth.uid == uid && request.resource.data.role == resource.data.role || isAdmin());
+        ((request.auth.uid == uid &&
+          request.resource.data.role == resource.data.role &&
+          targetingFieldsUnchanged()) || isAdmin());
       allow delete: if isAdmin();
     }
 
@@ -67,10 +84,11 @@ service cloud.firestore {
       allow update: if false;
     }
 
-    // Audit log: append-only, editors can read, nobody can edit/delete.
+    // Audit log: append-only, admin-only (chưa có client code nào ghi vào đây —
+    // siết isAdmin() thay vì isEditor() để editor không tự ghi log giả).
     match /auditLogs/{logId} {
-      allow read: if isEditor();
-      allow create: if isEditor();
+      allow read: if isAdmin();
+      allow create: if isAdmin();
       allow update, delete: if false;
     }
   }

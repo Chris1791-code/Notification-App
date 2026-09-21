@@ -1,0 +1,15 @@
+rules_version = '2';
+
+// Chưa có tính năng đính kèm file (attachments) nào dùng Storage — client SDK
+// chỉ init sẵn cho tương lai. Chặn hết để tránh trạng thái mặc định "đọc/ghi
+// công khai" của Firebase Storage khi chưa có rules được deploy tường minh.
+// Khi thêm tính năng upload thật, sửa rule này theo đúng luồng (ví dụ chỉ
+// isEditor() ghi vào notifications/{notificationId}/..., mọi người đăng nhập
+// đọc được).
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

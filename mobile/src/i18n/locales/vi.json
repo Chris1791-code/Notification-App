@@ -39,7 +39,8 @@
     "signUpButton": "Tạo tài khoản",
     "switchToSignUp": "Chưa có tài khoản? Đăng ký",
     "switchToSignIn": "Đã có tài khoản? Đăng nhập",
-    "subtitle": "Đăng nhập bằng email trường/cá nhân để nhận thông báo từ VP. Đào tạo Quốc tế"
+    "subtitle": "Đăng nhập bằng email trường/cá nhân để nhận thông báo từ VP. Đào tạo Quốc tế",
+    "domainNotAllowed": "Chỉ chấp nhận email thuộc domain: {{domains}}"
   },
   "detail": {
     "attachments": "Tài liệu đính kèm",

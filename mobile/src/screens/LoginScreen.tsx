@@ -10,6 +10,21 @@ import {
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '@/firebase';
 
+// Danh sách domain email được phép tự đăng ký, cách nhau bằng dấu phẩy (vd.
+// "hcmut.edu.vn,oisp.hcmut.edu.vn"). Để trống = không giới hạn. Hạn chế theo
+// domain trường giúp giảm tài khoản rác/bot tự đăng ký — không thay thế được
+// Firebase App Check, chỉ là lớp chặn đơn giản phía client.
+const ALLOWED_EMAIL_DOMAINS: string[] = (process.env.EXPO_PUBLIC_ALLOWED_EMAIL_DOMAINS ?? '')
+  .split(',')
+  .map((d: string) => d.trim().toLowerCase())
+  .filter((d: string) => d.length > 0);
+
+function isAllowedEmail(email: string) {
+  if (ALLOWED_EMAIL_DOMAINS.length === 0) return true;
+  const domain = email.trim().toLowerCase().split('@')[1];
+  return !!domain && ALLOWED_EMAIL_DOMAINS.some((allowed: string) => domain === allowed || domain.endsWith(`.${allowed}`));
+}
+
 export function LoginScreen() {
   const { t } = useTranslation();
   const [mode, setMode] = useState<'signIn' | 'signUp'>('signIn');
@@ -26,6 +41,11 @@ export function LoginScreen() {
       if (mode === 'signIn') {
         await signInWithEmailAndPassword(auth, email.trim(), password);
       } else {
+        if (!isAllowedEmail(email)) {
+          setError(t('auth.domainNotAllowed', { domains: ALLOWED_EMAIL_DOMAINS.join(', ') }));
+          setSubmitting(false);
+          return;
+        }
         const credential = await createUserWithEmailAndPassword(auth, email.trim(), password);
         await updateProfile(credential.user, { displayName: displayName.trim() });
         // role phải là 'student' — Firestore rules chỉ cho phép self-signup với role này,
