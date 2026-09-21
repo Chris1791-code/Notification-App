@@ -143,6 +143,10 @@
     "detail": {
       "title": "Chi tiết theo thông báo",
       "noPublished": "Chưa có thông báo nào được đăng.",
+      "openRate": "Tỷ lệ mở",
+      "noAudience": "Chưa có nhóm nhận",
+      "readCountLabel": "Đã đọc",
+      "audienceLabel": "Nhóm nhận",
       "readCount": "Đã đọc ({count}/{total})",
       "unreadCount": "Chưa đọc ({count})",
       "noReaders": "Chưa có ai đọc.",

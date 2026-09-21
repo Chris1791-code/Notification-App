@@ -143,6 +143,10 @@
     "detail": {
       "title": "Per-notification detail",
       "noPublished": "No notifications published yet.",
+      "openRate": "Open rate",
+      "noAudience": "No recipients",
+      "readCountLabel": "Read",
+      "audienceLabel": "Recipients",
       "readCount": "Read ({count}/{total})",
       "unreadCount": "Unread ({count})",
       "noReaders": "No one has read it yet.",
