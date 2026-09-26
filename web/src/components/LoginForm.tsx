@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
@@ -13,6 +13,13 @@ export function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  // App iOS bọc web (admin-ios/, Capacitor) gắn chuỗi này vào User-Agent. Google
+  // chặn đăng nhập OAuth trong WebView nhúng (lỗi disallowed_useragent), nên ở
+  // đó chỉ dùng email/mật khẩu.
+  const [inNativeShell, setInNativeShell] = useState(false);
+  useEffect(() => {
+    setInNativeShell(navigator.userAgent.includes('OISPAdminIOS'));
+  }, []);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -69,12 +76,14 @@ export function LoginForm() {
             {t('submit')}
           </button>
         </form>
-        <button
-          onClick={handleGoogleSignIn}
-          className="mt-3 w-full rounded border border-gray-300 py-2 text-sm font-medium hover:bg-gray-50"
-        >
-          {t('google')}
-        </button>
+        {!inNativeShell && (
+          <button
+            onClick={handleGoogleSignIn}
+            className="mt-3 w-full rounded border border-gray-300 py-2 text-sm font-medium hover:bg-gray-50"
+          >
+            {t('google')}
+          </button>
+        )}
       </div>
     </main>
   );

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#00529B" />
+    <title>OISP Admin — Mất kết nối</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e8f1fa;
+        color: #003b70;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        text-align: center;
+        padding: 24px;
+        box-sizing: border-box;
+      }
+      img { width: 72px; height: 72px; border-radius: 16px; }
+      h1 { font-size: 18px; margin: 16px 0 8px; }
+      p { font-size: 14px; color: #4b5563; margin: 0 0 20px; }
+      button {
+        border: 0;
+        border-radius: 8px;
+        background: #00529b;
+        color: #fff;
+        font-size: 14px;
+        padding: 10px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/icons/icon-192.png" alt="" />
+      <h1>Không có kết nối mạng</h1>
+      <p>Web quản trị cần Internet để tải dữ liệu. Kiểm tra Wi-Fi/4G rồi thử lại.<br />No internet connection.</p>
+      <button onclick="location.reload()">Thử lại / Retry</button>
+    </main>
+  </body>
+</html>

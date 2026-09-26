@@ -4,6 +4,7 @@ Hệ thống thông báo gồm 3 phần:
 
 - **`web/`** — Web quản trị (Next.js, deploy Vercel): tạo/quản lý thông báo, danh mục, người dùng, thống kê, bản dịch.
 - **`mobile/`** — App di động Android & iOS (Expo/React Native, 1 codebase): nơi sinh viên/giảng viên nhận thông báo, đăng ký nhận push, ghi nhận lượt đọc.
+- **`admin-ios/`** — App iOS cho **web quản trị** (Capacitor, bọc bản web đang chạy trên Vercel). Web quản trị cũng cài được thẳng từ Safari dạng PWA, xem mục [App iOS cho web quản trị](#app-ios-cho-web-quản-trị).
 - **`firebase/`** — Firestore security rules & indexes dùng chung cho cả web và mobile.
 - **`firebase/functions/`** — Cloud Function `onNotificationPublished`: gửi push (qua Expo Push Service) khi một thông báo chuyển sang trạng thái "published".
 
@@ -91,6 +92,53 @@ eas build --platform ios --profile production
 ```
 
 `eas.json` đã có sẵn 3 profile (`development`, `preview`, `production`). Lần đầu build iOS, EAS sẽ hỏi tạo/đăng nhập Apple Developer account để tự sinh certificate & provisioning profile — không cần Xcode hay máy Mac vì build chạy trên cloud của Expo.
+
+## App iOS cho web quản trị
+
+Có hai cách đưa web quản trị lên iPhone/iPad. Cả hai cùng hiển thị bản web đang chạy trên Vercel, nên mỗi lần deploy web thì app cũng có bản mới, không phải build lại.
+
+| | PWA (cài từ Safari) | App gốc `admin-ios/` (Capacitor) |
+|---|---|---|
+| Cách cài | Safari → Chia sẻ → **Thêm vào MH chính** | TestFlight (hoặc App Store/Custom App) |
+| Chi phí | Không | Apple Developer Program 99 USD/năm |
+| Cần máy Mac | Không | Không nếu build qua Codemagic (`codemagic.yaml`) |
+| Đăng nhập Google | Có (có thể chập chờn ở chế độ PWA) | Không, chỉ email/mật khẩu (Google chặn OAuth trong WebView nhúng) |
+| Dùng khi | Dùng ngay cho cán bộ OISP | Cần app có trong danh sách app, quản lý phân phối qua Apple |
+
+Giao diện quản trị đã co giãn theo màn hình nhỏ: dưới 768px sidebar thu thành menu trượt mở bằng nút ☰ (`web/src/components/AdminShell.tsx`).
+
+### Cách 1 — PWA
+
+Các file liên quan: `web/src/app/manifest.ts` (Web App Manifest), `web/public/icons/` (icon), `web/public/sw.js` (service worker: chỉ cache file tĩnh của Next.js và trang báo mất mạng `web/public/offline.html`; không cache dữ liệu Firestore/API), metadata `appleWebApp`/`viewport` trong `web/src/app/[locale]/layout.tsx`.
+
+Sau khi deploy lên Vercel:
+
+1. Mở https://oisp-notification.vercel.app bằng **Safari** trên iPhone (Chrome trên iOS từ 16.4 cũng được).
+2. Bấm nút **Chia sẻ** → **Thêm vào MH chính** → **Thêm**.
+3. Mở icon "OISP Admin" trên màn hình chính: web chạy toàn màn hình, không có thanh địa chỉ.
+
+### Cách 2 — App gốc qua Capacitor (`admin-ios/`)
+
+`admin-ios/capacitor.config.json` trỏ `server.url` tới https://oisp-notification.vercel.app, bundle ID `vn.edu.hcmut.oisp.admin` (khác app sinh viên `vn.edu.hcmut.oisp.notification`). App gắn chuỗi `OISPAdminIOS` vào User-Agent để web nhận biết và ẩn nút đăng nhập Google (`web/src/components/LoginForm.tsx`). Thư mục `admin-ios/www/` chỉ chứa trang báo mất mạng, hiện khi app không tải được web. Đổi domain web thì sửa `server.url` và `allowNavigation` rồi build lại.
+
+**Build không cần máy Mac, qua Codemagic** (gói miễn phí có 500 phút máy macOS/tháng):
+
+1. Đăng ký Apple Developer Program, vào [App Store Connect](https://appstoreconnect.apple.com) → **Apps** → **+** → tạo app mới với bundle ID `vn.edu.hcmut.oisp.admin` (đăng ký bundle ID trước ở developer.apple.com → Identifiers nếu chưa có).
+2. App Store Connect → **Users and Access** → **Integrations** → **App Store Connect API** → tạo key quyền **App Manager**, tải file `.p8`, ghi lại Issuer ID và Key ID.
+3. Đăng nhập [codemagic.io](https://codemagic.io) bằng GitHub, thêm repo này. Vào **Team settings** → **Integrations** → **Developer Portal** → **Manage keys** → thêm key vừa tạo với tên đúng là `OISP App Store Connect` (trùng tên trong `codemagic.yaml`).
+4. Chọn workflow **OISP Admin iOS → TestFlight** → **Start new build**. Codemagic tự tạo chứng chỉ/profile ký, build `.ipa` và đẩy lên TestFlight.
+5. Trong App Store Connect → **TestFlight**, thêm cán bộ OISP vào nhóm Internal Testing (tối đa 100 người, không phải qua duyệt của Apple) → mọi người cài app **TestFlight** rồi nhận lời mời.
+
+**Build bằng Xcode** (nếu có máy Mac):
+
+```bash
+cd admin-ios
+npm install
+npx cap sync ios
+npx cap open ios   # Xcode mở ra → chọn Team ở Signing & Capabilities → Product → Archive
+```
+
+Lưu ý phát hành: app chỉ bọc web có thể bị Apple từ chối khi nộp App Store công khai (Guideline 4.2 — Minimum Functionality). Với công cụ nội bộ, nên phân phối qua **TestFlight** hoặc **Custom App** qua Apple Business Manager thay vì App Store công khai.
 
 ## Mô hình dữ liệu Firestore (tóm tắt)
 

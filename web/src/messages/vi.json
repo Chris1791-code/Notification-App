@@ -7,7 +7,8 @@
     "translations": "Đa ngôn ngữ / Bản dịch",
     "reports": "Thống kê & Báo cáo",
     "settings": "Cài đặt hệ thống",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "openMenu": "Mở menu"
   },
   "login": {
     "title": "Đăng nhập quản trị",
