@@ -1,0 +1,14 @@
+{
+  "appId": "vn.edu.hcmut.oisp.admin",
+  "appName": "OISP Admin",
+  "webDir": "www",
+  "server": {
+    "url": "https://oisp-notification.vercel.app",
+    "allowNavigation": ["oisp-notification.vercel.app", "*.firebaseapp.com"]
+  },
+  "ios": {
+    "contentInset": "always",
+    "appendUserAgent": "OISPAdminIOS",
+    "backgroundColor": "#E8F1FA"
+  }
+}

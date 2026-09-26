@@ -1,0 +1,36 @@
+# Build app iOS quản trị (admin-ios/, Capacitor) trên máy Mac cloud của Codemagic
+# rồi đẩy lên TestFlight — không cần máy Mac riêng. Hướng dẫn: README mục
+# "App iOS cho web quản trị".
+workflows:
+  admin-ios-testflight:
+    name: OISP Admin iOS → TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      # Tên API key App Store Connect đã khai báo trong Codemagic → Team settings → Integrations
+      app_store_connect: OISP App Store Connect
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: vn.edu.hcmut.oisp.admin
+      node: 22
+      xcode: latest
+    triggering:
+      events: []
+    scripts:
+      - name: Cài dependencies
+        script: cd admin-ios && npm ci
+      - name: Đồng bộ Capacitor
+        script: cd admin-ios && npx cap sync ios
+      - name: Áp dụng hồ sơ ký (signing)
+        script: xcode-project use-profiles
+      - name: Đặt số build
+        script: cd admin-ios/ios/App && agvtool new-version -all "$BUILD_NUMBER"
+      - name: Build .ipa
+        script: cd admin-ios && xcode-project build-ipa --project ios/App/App.xcodeproj --scheme App
+    artifacts:
+      - admin-ios/build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

@@ -17,7 +17,7 @@ const ITEMS = [
   { href: 'settings', key: 'settings', icon: '⚙️' }
 ] as const;
 
-export function Sidebar() {
+export function Sidebar({ open }: { open: boolean }) {
   const t = useTranslations('nav');
   const pathname = usePathname();
   const params = useParams();
@@ -31,7 +31,11 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="flex h-screen w-64 flex-col border-r border-gray-200 bg-white">
+    <aside
+      className={`fixed inset-y-0 left-0 z-40 flex h-screen w-64 flex-col overflow-y-auto border-r border-gray-200 bg-white pt-[env(safe-area-inset-top)] transition-transform md:sticky md:top-0 md:translate-x-0 md:pt-0 ${
+        open ? 'translate-x-0' : '-translate-x-full'
+      }`}
+    >
       <div className="border-b border-gray-200 px-4 py-5">
         <p className="text-sm font-semibold text-brand-dark">VP. ĐTQT — OISP</p>
         <p className="text-xs text-gray-500">Notification Admin</p>
