@@ -169,5 +169,88 @@
       "readAt": "Thời điểm đọc",
       "department": "Khoa/Đơn vị"
     }
+  },
+  "student": {
+    "tabs": {
+      "home": "Trang chủ",
+      "categories": "Danh mục",
+      "saved": "Đã lưu",
+      "account": "Tài khoản"
+    },
+    "home": {
+      "title": "Thông báo mới",
+      "urgent": "Khẩn cấp",
+      "empty": "Chưa có thông báo nào.",
+      "allCategories": "Tất cả",
+      "loadError": "Không tải được thông báo. Kiểm tra kết nối mạng rồi thử lại."
+    },
+    "categories": {
+      "title": "Danh mục thông báo"
+    },
+    "saved": {
+      "title": "Đã lưu",
+      "empty": "Bạn chưa lưu thông báo nào."
+    },
+    "detail": {
+      "back": "Quay lại",
+      "attachments": "Tài liệu đính kèm",
+      "save": "Lưu",
+      "saved": "Đã lưu",
+      "notFound": "Không tìm thấy thông báo, hoặc thông báo đã bị gỡ."
+    },
+    "account": {
+      "title": "Tài khoản",
+      "language": "Ngôn ngữ hiển thị",
+      "push": "Thông báo đẩy",
+      "installGuide": "Hướng dẫn cài app",
+      "logout": "Đăng xuất"
+    },
+    "push": {
+      "enable": "Bật thông báo",
+      "enabling": "Đang bật…",
+      "granted": "Đã bật. Bạn sẽ nhận thông báo trên thiết bị này.",
+      "denied": "Bạn đã chặn thông báo. Vào Cài đặt của máy → Thông báo → OISP để bật lại.",
+      "needsInstall": "Trên iPhone/iPad, cần thêm web app vào Màn hình chính rồi mở từ biểu tượng đó mới nhận được thông báo.",
+      "unsupported": "Trình duyệt hoặc phiên bản hệ điều hành này không hỗ trợ thông báo đẩy. iPhone/iPad cần iOS 16.4 trở lên. Bạn vẫn xem thông báo được khi mở app.",
+      "unconfigured": "Máy chủ chưa cấu hình thông báo đẩy (thiếu khoá VAPID). Vui lòng báo quản trị viên.",
+      "error": "Không bật được thông báo: {message}",
+      "bannerTitle": "Không bỏ lỡ thông báo",
+      "bannerBody": "Bật thông báo để nhận tin mới ngay trên màn hình khoá.",
+      "bannerInstall": "Cài app vào Màn hình chính để nhận thông báo đẩy.",
+      "bannerInstallAction": "Xem cách cài"
+    },
+    "auth": {
+      "signIn": "Đăng nhập",
+      "signUp": "Đăng ký",
+      "displayName": "Họ và tên",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "signInButton": "Đăng nhập",
+      "signUpButton": "Tạo tài khoản",
+      "switchToSignUp": "Chưa có tài khoản? Đăng ký",
+      "switchToSignIn": "Đã có tài khoản? Đăng nhập",
+      "subtitle": "Đăng nhập bằng email trường/cá nhân để nhận thông báo từ VP. Đào tạo Quốc tế",
+      "domainNotAllowed": "Chỉ chấp nhận email thuộc tên miền: {domains}",
+      "installLink": "Hướng dẫn cài app"
+    },
+    "install": {
+      "title": "Cài OISP Thông báo",
+      "intro": "Cài web app vào màn hình chính để mở nhanh như một ứng dụng và nhận thông báo đẩy. Không cần App Store hay CH Play.",
+      "installed": "Bạn đang dùng bản đã cài. Vào Tài khoản để bật thông báo nếu chưa bật.",
+      "iosTitle": "iPhone / iPad (Safari)",
+      "ios1": "Mở trang này bằng Safari.",
+      "ios2": "Bấm nút Chia sẻ (hình vuông có mũi tên hướng lên) ở thanh dưới cùng.",
+      "ios3": "Kéo xuống, chọn \"Thêm vào MH chính\", rồi bấm \"Thêm\".",
+      "ios4": "Mở biểu tượng \"OISP\" vừa xuất hiện trên màn hình chính, đăng nhập và bật thông báo.",
+      "iosOld": "Máy của bạn đang chạy iOS dưới 16.4 nên không nhận được thông báo đẩy. Bạn vẫn cài và xem thông báo được; cập nhật iOS để nhận thông báo.",
+      "androidTitle": "Android (Chrome)",
+      "android1": "Mở trang này bằng Chrome.",
+      "android2": "Bấm nút ⋮ ở góc trên bên phải → \"Thêm vào màn hình chính\" hoặc \"Cài đặt ứng dụng\".",
+      "android3": "Mở app, đăng nhập và bấm \"Bật thông báo\". Trên Android, bạn cũng nhận thông báo ngay trong Chrome mà không cần cài.",
+      "desktopTitle": "Máy tính (Chrome / Edge)",
+      "desktop1": "Bấm biểu tượng cài đặt ở cuối thanh địa chỉ, hoặc menu → \"Cài đặt OISP Thông báo\".",
+      "desktop2": "Không cài cũng được: đăng nhập rồi bấm \"Bật thông báo\" là nhận được thông báo khi trình duyệt đang mở.",
+      "continue": "Vào app"
+    }
   }
 }

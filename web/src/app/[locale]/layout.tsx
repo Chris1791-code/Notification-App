@@ -13,6 +13,9 @@ export function generateStaticParams() {
 export const metadata: Metadata = {
   title: 'OISP Notification Admin',
   applicationName: 'OISP Admin',
+  // Mặc định là manifest quản trị; web app sinh viên (/[locale]/app) ghi đè
+  // bằng student.webmanifest trong layout riêng.
+  manifest: '/admin.webmanifest',
   // iOS Safari: cho phép "Thêm vào MH chính" mở ở chế độ toàn màn hình như app
   appleWebApp: { capable: true, title: 'OISP Admin', statusBarStyle: 'default' },
   icons: {

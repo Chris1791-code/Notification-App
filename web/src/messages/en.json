@@ -169,5 +169,88 @@
       "readAt": "Read at",
       "department": "Department"
     }
+  },
+  "student": {
+    "tabs": {
+      "home": "Home",
+      "categories": "Categories",
+      "saved": "Saved",
+      "account": "Account"
+    },
+    "home": {
+      "title": "Latest notifications",
+      "urgent": "Urgent",
+      "empty": "No notifications yet.",
+      "allCategories": "All",
+      "loadError": "Couldn't load notifications. Check your connection and try again."
+    },
+    "categories": {
+      "title": "Notification categories"
+    },
+    "saved": {
+      "title": "Saved",
+      "empty": "You haven't saved any notifications yet."
+    },
+    "detail": {
+      "back": "Back",
+      "attachments": "Attachments",
+      "save": "Save",
+      "saved": "Saved",
+      "notFound": "Notification not found, or it has been removed."
+    },
+    "account": {
+      "title": "Account",
+      "language": "Display language",
+      "push": "Push notifications",
+      "installGuide": "How to install the app",
+      "logout": "Sign out"
+    },
+    "push": {
+      "enable": "Turn on notifications",
+      "enabling": "Turning on…",
+      "granted": "On. You'll receive notifications on this device.",
+      "denied": "Notifications are blocked. Open your device Settings → Notifications → OISP to allow them.",
+      "needsInstall": "On iPhone/iPad, add the web app to your Home Screen and open it from that icon to receive notifications.",
+      "unsupported": "This browser or OS version doesn't support push notifications. iPhone/iPad needs iOS 16.4 or later. You can still read notifications in the app.",
+      "unconfigured": "Push notifications are not configured on the server (missing VAPID key). Please contact an administrator.",
+      "error": "Couldn't turn on notifications: {message}",
+      "bannerTitle": "Don't miss an announcement",
+      "bannerBody": "Turn on notifications to get new announcements on your lock screen.",
+      "bannerInstall": "Add the app to your Home Screen to receive push notifications.",
+      "bannerInstallAction": "How to install"
+    },
+    "auth": {
+      "signIn": "Sign in",
+      "signUp": "Sign up",
+      "displayName": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "signInButton": "Sign in",
+      "signUpButton": "Create account",
+      "switchToSignUp": "No account yet? Sign up",
+      "switchToSignIn": "Already have an account? Sign in",
+      "subtitle": "Sign in with your school or personal email to receive notifications from OISP",
+      "domainNotAllowed": "Only email addresses on these domains are allowed: {domains}",
+      "installLink": "How to install the app"
+    },
+    "install": {
+      "title": "Install OISP Notifications",
+      "intro": "Install the web app on your home screen to open it like an app and receive push notifications. No App Store or Google Play needed.",
+      "installed": "You're using the installed app. Go to Account to turn on notifications if you haven't yet.",
+      "iosTitle": "iPhone / iPad (Safari)",
+      "ios1": "Open this page in Safari.",
+      "ios2": "Tap the Share button (square with an up arrow) in the bottom bar.",
+      "ios3": "Scroll down, choose \"Add to Home Screen\", then tap \"Add\".",
+      "ios4": "Open the new \"OISP\" icon on your home screen, sign in and turn on notifications.",
+      "iosOld": "Your device runs iOS older than 16.4, so it can't receive push notifications. You can still install the app and read notifications; update iOS to get push.",
+      "androidTitle": "Android (Chrome)",
+      "android1": "Open this page in Chrome.",
+      "android2": "Tap ⋮ in the top-right corner → \"Add to Home screen\" or \"Install app\".",
+      "android3": "Open the app, sign in and tap \"Turn on notifications\". On Android you also get notifications in Chrome without installing.",
+      "desktopTitle": "Computer (Chrome / Edge)",
+      "desktop1": "Click the install icon at the end of the address bar, or menu → \"Install OISP Notifications\".",
+      "desktop2": "Installing is optional: sign in and click \"Turn on notifications\" to get notifications while the browser is open.",
+      "continue": "Open the app"
+    }
   }
 }
