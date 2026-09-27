@@ -2,7 +2,9 @@
 
 Hệ thống thông báo gồm 3 phần:
 
-- **`web/`** — Web quản trị (Next.js, deploy Vercel): tạo/quản lý thông báo, danh mục, người dùng, thống kê, bản dịch.
+- **`web/`** — Next.js, deploy Vercel, gồm hai phần:
+  - **Web quản trị** (`/vi/admin`): tạo/quản lý thông báo, danh mục, người dùng, thống kê, bản dịch.
+  - **Web app sinh viên/giảng viên** (`/vi/app`): xem, lưu thông báo và **nhận thông báo đẩy** trên iPhone (iOS 16.4+), Android và máy tính mà không cần App Store/CH Play. Xem mục [Web app sinh viên & thông báo đẩy qua web](#web-app-sinh-viên--thông-báo-đẩy-qua-web).
 - **`mobile/`** — App di động Android & iOS (Expo/React Native, 1 codebase): nơi sinh viên/giảng viên nhận thông báo, đăng ký nhận push, ghi nhận lượt đọc.
 - **`admin-ios/`** — App iOS cho **web quản trị** (Capacitor, bọc bản web đang chạy trên Vercel). Web quản trị cũng cài được thẳng từ Safari dạng PWA, xem mục [App iOS cho web quản trị](#app-ios-cho-web-quản-trị).
 - **`firebase/`** — Firestore security rules & indexes dùng chung cho cả web và mobile.
@@ -93,6 +95,45 @@ eas build --platform ios --profile production
 
 `eas.json` đã có sẵn 3 profile (`development`, `preview`, `production`). Lần đầu build iOS, EAS sẽ hỏi tạo/đăng nhập Apple Developer account để tự sinh certificate & provisioning profile — không cần Xcode hay máy Mac vì build chạy trên cloud của Expo.
 
+## Web app sinh viên & thông báo đẩy qua web
+
+Phương án **miễn phí** thay cho việc phát hành app lên App Store (không cần tài khoản Apple Developer 99 USD/năm): sinh viên/giảng viên mở web app, cài vào màn hình chính và bật thông báo đẩy (Web Push qua Firebase Cloud Messaging).
+
+**Link gửi cho sinh viên:** https://oisp-notification.vercel.app/vi/app/install (trang hướng dẫn cài, tự nhận biết iPhone/Android/máy tính).
+
+| Nền tảng | Nhận thông báo đẩy |
+|---|---|
+| iPhone/iPad iOS **16.4+** | Có, **chỉ khi** đã "Thêm vào MH chính" và mở từ biểu tượng đó |
+| iPhone/iPad dưới iOS 16.4 | Không, vẫn xem thông báo khi mở app |
+| Android (Chrome) | Có, cài hoặc không cài đều được |
+| Máy tính (Chrome/Edge/Firefox) | Có, khi trình duyệt đang chạy |
+
+### Chức năng (`web/src/app/[locale]/app/`)
+
+- Đăng nhập/đăng ký bằng email (tự đăng ký luôn là `role: student`, giống app mobile; giới hạn tên miền email qua `NEXT_PUBLIC_ALLOWED_EMAIL_DOMAINS`).
+- Trang chủ: thông báo đã đăng **thuộc nhóm nhận của người dùng** (cùng quy tắc `targetFilter` với Cloud Function), lọc theo danh mục; trang chi tiết có tệp đính kèm, nút Lưu, và ghi lượt đọc sau ≥10 giây (giống mobile, số liệu vào trang Thống kê).
+- Đã lưu, Danh mục, Tài khoản (bật thông báo, đổi ngôn ngữ, đăng xuất).
+- Ngôn ngữ đang dùng được lưu vào `users/{uid}.locale`, thông báo đẩy gửi đúng bản tiếng Việt/tiếng Anh (nếu có bản dịch).
+
+### Cách thông báo đẩy hoạt động
+
+1. Người dùng bấm **Bật thông báo** → trình duyệt hỏi quyền → `web/src/lib/webPush.ts` lấy token FCM và lưu vào `users/{uid}.webPushTokens`. Token được làm mới mỗi lần mở app và gỡ khi đăng xuất.
+2. Khi một thông báo chuyển sang `published`, Cloud Function `onNotificationPublished` gửi **song song**: Expo Push cho app mobile (`expoPushTokens`) và Web Push qua FCM (`firebase/functions/src/webPush.ts`, lọc cùng `targetFilter`). Token hết hạn tự được gỡ khỏi hồ sơ.
+3. Service worker `web/public/sw.js` hiển thị thông báo; bấm vào sẽ mở đúng trang chi tiết.
+
+### Thiết lập một lần
+
+1. Firebase Console → **Project settings** → **Cloud Messaging** → **Web Push certificates** → **Generate key pair**. Copy **Key pair** (khoá công khai).
+2. Vercel → Project Settings → **Environment Variables**: thêm `NEXT_PUBLIC_FIREBASE_VAPID_KEY` = khoá vừa copy (tuỳ chọn: `NEXT_PUBLIC_ALLOWED_EMAIL_DOMAINS`, ví dụ `hcmut.edu.vn`), rồi redeploy.
+3. Deploy lại Cloud Functions để có phần gửi Web Push:
+   ```bash
+   cd firebase/functions && npm install && cd ..
+   firebase deploy --only functions --project <project-id>
+   ```
+4. Kiểm tra: đăng nhập web app trên điện thoại, bật thông báo, rồi đăng một thông báo thử từ web quản trị.
+
+Thiếu `NEXT_PUBLIC_FIREBASE_VAPID_KEY` thì web app vẫn chạy, chỉ hiện dòng "Máy chủ chưa cấu hình thông báo đẩy" ở trang Tài khoản.
+
 ## App iOS cho web quản trị
 
 Có hai cách đưa web quản trị lên iPhone/iPad. Cả hai cùng hiển thị bản web đang chạy trên Vercel, nên mỗi lần deploy web thì app cũng có bản mới, không phải build lại.
@@ -109,7 +150,7 @@ Giao diện quản trị đã co giãn theo màn hình nhỏ: dưới 768px side
 
 ### Cách 1 — PWA
 
-Các file liên quan: `web/src/app/manifest.ts` (Web App Manifest), `web/public/icons/` (icon), `web/public/sw.js` (service worker: chỉ cache file tĩnh của Next.js và trang báo mất mạng `web/public/offline.html`; không cache dữ liệu Firestore/API), metadata `appleWebApp`/`viewport` trong `web/src/app/[locale]/layout.tsx`.
+Các file liên quan: `web/public/admin.webmanifest` (Web App Manifest của phần quản trị; phần sinh viên dùng `web/public/student.webmanifest`), `web/public/icons/` (icon), `web/public/sw.js` (service worker: chỉ cache file tĩnh của Next.js và trang báo mất mạng `web/public/offline.html`; không cache dữ liệu Firestore/API), metadata `appleWebApp`/`viewport` trong `web/src/app/[locale]/layout.tsx`.
 
 Sau khi deploy lên Vercel:
 
@@ -165,7 +206,7 @@ Danh mục 15 nhóm hiện tại (`academic`, `exams`, `student-affairs`, `finan
 
 - Mobile đăng ký nhận push bằng `expo-notifications` (`mobile/src/notifications.ts`): xin quyền, lấy Expo push token, lưu vào `users/{uid}.expoPushTokens`. Chạy tự động sau khi đăng nhập (`mobile/App.tsx`).
 - Dùng **Expo Push Service** (không phải gọi thẳng Firebase Admin Messaging): Expo tự chuyển tiếp qua FCM (Android) / APNs (iOS), nên không cần cấu hình credentials FCM/APNs thủ công ở Cloud Function — EAS quản lý phần đó khi build app.
-- Cloud Function `onNotificationPublished` (`firebase/functions/src/index.ts`) trigger khi một document trong `notifications` chuyển `status` sang `published` lần đầu, gom token từ toàn bộ `users` rồi gửi qua Expo Push API.
+- Cloud Function `onNotificationPublished` (`firebase/functions/src/index.ts`) trigger khi một document trong `notifications` chuyển `status` sang `published` lần đầu, gom token từ toàn bộ `users` rồi gửi qua Expo Push API (app mobile) và Firebase Cloud Messaging (web app, xem mục [Web app sinh viên & thông báo đẩy qua web](#web-app-sinh-viên--thông-báo-đẩy-qua-web)).
 - Quy mô hiện tại (quét toàn bộ `users`) phù hợp cho một trường đại học; nếu cần mở rộng, nên tách token ra collection riêng có index theo `targetGroups` thay vì quét toàn bộ người dùng mỗi lần đăng bài.
 
 ## Bảo mật: Firebase App Check

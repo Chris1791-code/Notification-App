@@ -1,0 +1,18 @@
+{
+  "id": "/app",
+  "name": "OISP Thông báo",
+  "short_name": "OISP",
+  "description": "Nhận thông báo từ VP. Đào tạo Quốc tế, ĐHBK – ĐHQG-HCM",
+  "start_url": "/vi/app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F8FAFC",
+  "theme_color": "#00529B",
+  "lang": "vi",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
